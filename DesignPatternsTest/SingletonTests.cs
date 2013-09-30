@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DesignPatterns;
 using System.IO;
@@ -9,36 +10,32 @@ namespace DesignPatternsTest
     [TestClass]
     public class SingletonTests
     {
+        private const String DropPath = @"C:\Users\jhinojosa\Desktop";
+
         [TestMethod]
         public void SingletonCanonical()
         {
-            String singleton = SingletonBuilder.BuildSingleton("MySingletonCanonical", SingletonType.Canonical);
+            var classValues = new Dictionary<string, string> {{"{CLASS_NAME}", "MySingletonCanonical"}};
 
-            FileWriter fw = new FileWriter(@"C:\Users\JuanLorenzo\Desktop\MySingletonCanonical.cs", singleton);
+            var singleton = DesignPatternBuilder.BuildFromXml("SingletonCanonical", classValues);
+
+            var fw = new FileWriter(DropPath + @"\MySingletonCanonical.cs", singleton);
             fw.WriteFile();
 
-            Assert.IsTrue(File.Exists(@"C:\Users\JuanLorenzo\Desktop\SingletonCanonical.cs"));
+            Assert.IsTrue(File.Exists(DropPath + @"\MySingletonCanonical.cs"));
         }
+
         [TestMethod]
         public void SingletonStaticInitialization()
         {
-            String singleton = SingletonBuilder.BuildSingleton("MySingletonStaticInitialization", SingletonType.StaticInitialization);
+            var classValues = new Dictionary<string, string> { { "{CLASS_NAME}", "MySingletonStaticInitialization" } };
 
-            FileWriter fw = new FileWriter(@"C:\Users\JuanLorenzo\Desktop\MySingletonStaticInitialization.cs", singleton);
+            var singleton = DesignPatternBuilder.BuildFromXml("SingletonStaticInitialization", classValues);
+
+            var fw = new FileWriter(DropPath + @"\MySingletonStaticInitialization.cs", singleton);
             fw.WriteFile();
 
-            Assert.IsTrue(File.Exists(@"C:\Users\JuanLorenzo\Desktop\test.cs"));
-        }
-
-        [TestMethod]
-        public void SingletonCanonicalXML()
-        {
-            String singleton = SingletonBuilder.BuildSingletonFromXml("MySingletonStaticInitialization", "SingletonCanonical");
-
-            FileWriter fw = new FileWriter(@"C:\Users\JuanLorenzo\Desktop\MySingletonStaticInitialization.cs", singleton);
-            fw.WriteFile();
-
-            Assert.IsTrue(File.Exists(@"C:\Users\JuanLorenzo\Desktop\test.cs"));
+            Assert.IsTrue(File.Exists(DropPath + @"\MySingletonStaticInitialization.cs"));
         }
     }
 }

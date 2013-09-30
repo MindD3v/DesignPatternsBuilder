@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DesignPattern name="SingletonStaticInitialization">
+  <Parameters>
+    <Parameter name="{CLASS_NAME}" description="Class Name" />
+  </Parameters>
+  <Pattern>
+    using System;
+    public sealed class {CLASS_NAME}
+    {
+      private static readonly {CLASS_NAME} instance = new {CLASS_NAME}();
+
+      private {CLASS_NAME}(){}
+
+      public static {CLASS_NAME} Instance
+      {
+        get
+        {
+          return instance;
+        }
+      }
+    }
+  </Pattern>
+</DesignPattern>

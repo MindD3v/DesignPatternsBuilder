@@ -41,17 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DesignPatternBuilder.cs" />
     <Compile Include="DesignPatternsEnum\SingletonType.cs" />
     <Compile Include="FileWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SingletonBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml" />
     <None Include="App.config" />
-    <None Include="DesignPatternsTemplates\SingletonCanonical.dp">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Content Include="DesignPatternsTemplates\SingletonCanonical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
