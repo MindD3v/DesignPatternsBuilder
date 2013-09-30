@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<DesignPattern name="SingletonCanonical">
+<Pattern>
+using System;
+
+public class {CLASS_NAME}
+{
+    private static {CLASS_NAME} instance;
+
+    private {CLASS_NAME}() {}
+
+    public static {CLASS_NAME} Instance
+    {
+        get 
+        {
+            if (instance == null)
+            {
+                instance = new {CLASS_NAME}();
+            }
+            return instance;
+        }
+    }
+}
+</Pattern>
+</DesignPattern>
