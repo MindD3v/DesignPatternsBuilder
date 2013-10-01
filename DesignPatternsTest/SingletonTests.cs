@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DesignPatterns;
 using System.IO;
+using System.Linq;
 using DesignPatterns.DesignPatternsEnum;
 
 namespace DesignPatternsTest
@@ -10,32 +11,47 @@ namespace DesignPatternsTest
     [TestClass]
     public class SingletonTests
     {
-        private const String DropPath = @"C:\Users\jhinojosa\Desktop";
+        private const String DropPath = @"C:\Users\jhinojosa\Source\Repos\DesignPatterns\BuiltDesignPatternsTest";
 
         [TestMethod]
         public void SingletonCanonical()
         {
-            var classValues = new Dictionary<string, string> {{"{CLASS_NAME}", "MySingletonCanonical"}};
-
-            var singleton = DesignPatternBuilder.BuildFromXml("SingletonCanonical", classValues);
-
-            var fw = new FileWriter(DropPath + @"\MySingletonCanonical.cs", singleton);
-            fw.WriteFile();
-
-            Assert.IsTrue(File.Exists(DropPath + @"\MySingletonCanonical.cs"));
+            SingletonBuilder("SingletonCanonical");
         }
 
         [TestMethod]
         public void SingletonStaticInitialization()
         {
-            var classValues = new Dictionary<string, string> { { "{CLASS_NAME}", "MySingletonStaticInitialization" } };
+            SingletonBuilder("SingletonStaticInitialization");
+        }
 
-            var singleton = DesignPatternBuilder.BuildFromXml("SingletonStaticInitialization", classValues);
+        [TestMethod]
+        public void SingletonMultithreaded()
+        {
+            SingletonBuilder("SingletonMultithreaded");
+        }
 
-            var fw = new FileWriter(DropPath + @"\MySingletonStaticInitialization.cs", singleton);
+        [TestMethod]
+        public void SingletonLazy()
+        {
+            SingletonBuilder("SingletonLazy");
+        }
+        private void SingletonBuilder(String type)
+        {
+            var classValues = new Dictionary<string, string>
+                {
+                    {"{NAMESPACE}", "BuiltDesignPatternsTest.SingletonTest"},
+                    {"{CLASS_NAME}", "My"+type}
+                };
+
+            var classInformation = DesignPatternBuilder.BuildFromXml(type, classValues, null).First();
+
+            var fw = new FileWriter(DropPath + "\\SingletonTest\\" + classInformation.FileName, classInformation.Content);
             fw.WriteFile();
 
-            Assert.IsTrue(File.Exists(DropPath + @"\MySingletonStaticInitialization.cs"));
+            Assert.IsTrue(File.Exists(DropPath + "\\SingletonTest\\" + classInformation.FileName));
         }
+
+        
     }
 }

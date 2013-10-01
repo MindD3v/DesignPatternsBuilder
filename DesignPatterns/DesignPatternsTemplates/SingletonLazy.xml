@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DesignPattern name="SingletonStaticInitialization">
+<DesignPattern name="SingletonLazy">
   <Parameters>
     <Parameter name="{NAMESPACE}" description="Namespace" />
     <Parameter name="{CLASS_NAME}" description="Class Name" />
@@ -15,22 +15,29 @@
         .cs
       </Extension>
       <Implementation>
-<![CDATA[
+    <![CDATA[
+using System;
+
 namespace {NAMESPACE}
 {
-  public sealed class {CLASS_NAME}
-  {
-    private static readonly {CLASS_NAME} _instance = new {CLASS_NAME}();
-
-    private {CLASS_NAME}(){}
-
-    public static {CLASS_NAME} Instance
+    public class {CLASS_NAME}
     {
-      get
-      {
-        return _instance;
-      }
-    }
+   
+        private static readonly Lazy<{CLASS_NAME}> _instance
+            = new Lazy<{CLASS_NAME}>(() => new {CLASS_NAME}());
+   
+       private {CLASS_NAME}()
+       {
+       }
+    
+  
+       public static {CLASS_NAME} Instance
+       {
+           get
+           {
+               return _instance.Value;
+           }
+       }
   }
 }
   ]]>

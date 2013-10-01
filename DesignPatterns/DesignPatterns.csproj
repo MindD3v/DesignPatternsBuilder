@@ -41,14 +41,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassInformation.cs" />
     <Compile Include="DesignPatternBuilder.cs" />
-    <Compile Include="DesignPatternsEnum\SingletonType.cs" />
     <Compile Include="FileWriter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml" />
+    <Content Include="DesignPatternsTemplates\FactoryHardcodedStrings.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\FactoryExplicit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\SingletonLazy.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\SingletonMultithreaded.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="DesignPatternsTemplates\SingletonCanonical.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

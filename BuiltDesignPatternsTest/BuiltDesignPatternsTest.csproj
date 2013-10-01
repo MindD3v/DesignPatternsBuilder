@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A1D9C738-5B2E-4285-80BA-9BB482AF9EF5}</ProjectGuid>
+    <ProjectGuid>{AAD792AB-D6BD-474A-87E8-FD65499F526B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DesignPatternsTest</RootNamespace>
-    <AssemblyName>DesignPatternsTest</AssemblyName>
+    <RootNamespace>BuiltDesignPatternsTest</RootNamespace>
+    <AssemblyName>BuiltDesignPatternsTest</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,15 +50,24 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FactoryTest.cs" />
-    <Compile Include="SingletonTests.cs" />
+    <Compile Include="FactoryTest\FactoryExplicitTests.cs" />
+    <Compile Include="FactoryTest\FactoryHardcodedStringsTests.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryExplicit\Circle.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryExplicit\IShape.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryExplicit\IShapeFactory.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryExplicit\ShapeFactory.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryExplicit\Square.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryHardcodedStrings\Circle.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryHardcodedStrings\IShape.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryHardcodedStrings\IShapeFactory.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryHardcodedStrings\ShapeFactory.cs" />
+    <Compile Include="FactoryTest\ShapeFactoryHardcodedStrings\Square.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DesignPatterns\DesignPatterns.csproj">
-      <Project>{9ca94b01-db63-47bb-81aa-13eb9c7a6ba4}</Project>
-      <Name>DesignPatterns</Name>
-    </ProjectReference>
+    <Compile Include="SingletonTest\MySingletonCanonical.cs" />
+    <Compile Include="SingletonTest\MySingletonLazy.cs" />
+    <Compile Include="SingletonTest\MySingletonMultithreaded.cs" />
+    <Compile Include="SingletonTest\MySingletonStaticInitialization.cs" />
+    <Compile Include="SingletonTest\SingletonTests.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

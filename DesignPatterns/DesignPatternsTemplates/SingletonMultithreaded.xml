@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<DesignPattern name="SingletonCanonical">
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DesignPattern name="SingletonMultithreaded">
   <Parameters>
     <Parameter name="{NAMESPACE}" description="Namespace" />
     <Parameter name="{CLASS_NAME}" description="Class Name" />
@@ -16,25 +16,33 @@
       </Extension>
       <Implementation>
     <![CDATA[
+using System;
+
 namespace {NAMESPACE}
 {
-  public class {CLASS_NAME}
+  public sealed class {CLASS_NAME}
   {
-      private static {CLASS_NAME} _instance;
+    private static volatile {CLASS_NAME} _instance;
+    private static object syncRoot = new Object();
 
-      private {CLASS_NAME}() {}
+    private {CLASS_NAME}() {}
 
-      public static {CLASS_NAME} Instance
+    public static {CLASS_NAME} Instance
+    {
+      get 
       {
-          get 
+          if (_instance == null) 
           {
-              if (_instance == null)
-              {
+            lock (syncRoot) 
+            {
+                if (_instance == null) 
                   _instance = new {CLASS_NAME}();
-              }
-              return _instance;
+            }
           }
+
+          return _instance;
       }
+    }
   }
 }
   ]]>
