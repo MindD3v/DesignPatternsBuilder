@@ -58,12 +58,11 @@
     <Compile Include="DesignPatternsUpdaterTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatterns\DesignPatterns.csproj">
-      <Project>{9ca94b01-db63-47bb-81aa-13eb9c7a6ba4}</Project>
-      <Name>DesignPatterns</Name>
+    <ProjectReference Include="..\DesignPatternsManager\DesignPatternsManager.csproj">
+      <Project>{6dfa470d-396d-4f14-b60d-845fefdb67d0}</Project>
+      <Name>DesignPatternsManager</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

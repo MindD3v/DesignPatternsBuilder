@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using DesignPatternsManager;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using DesignPatterns;
 using System.IO;
 using System.Linq;
 
