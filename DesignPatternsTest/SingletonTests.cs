@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using DesignPatterns;
 using System.IO;
 using System.Linq;
-using DesignPatterns.DesignPatternsEnum;
 
 namespace DesignPatternsTest
 {
