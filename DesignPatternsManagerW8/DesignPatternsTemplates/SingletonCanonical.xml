@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<DesignPattern name="SingletonCanonical" type="Singleton">
+  <Parameters>
+    <Parameter name="{NAMESPACE}" description="Namespace" />
+    <Parameter name="{CLASS_NAME}" description="Class Name" />
+  </Parameters>
+  <Pattern>
+    <File>
+      <Name>
+        <![CDATA[
+        {CLASS_NAME}
+        ]]>
+      </Name>
+      <Extension>
+        .cs
+      </Extension>
+      <Implementation>
+    <![CDATA[
+namespace {NAMESPACE}
+{
+  public class {CLASS_NAME}
+  {
+      private static {CLASS_NAME} _instance;
+
+      private {CLASS_NAME}() {}
+
+      public static {CLASS_NAME} Instance
+      {
+          get 
+          {
+              if (_instance == null)
+              {
+                  _instance = new {CLASS_NAME}();
+              }
+              return _instance;
+          }
+      }
+  }
+}
+  ]]>
+      </Implementation>
+    </File>
+  </Pattern>
+</DesignPattern>
