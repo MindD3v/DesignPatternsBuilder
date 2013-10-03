@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Linq;
-using DesignPatternsCommonLibrary;
 
-namespace DesignPatternsManagerW8
+namespace DesignPatternsCommonLibrary
 {
     public class DesignPatternsUpdater
     {
@@ -23,7 +22,9 @@ namespace DesignPatternsManagerW8
                 return UpdateDesignPatternsFile();
             }
 
-            var designPatternsXml = XDocument.Load(_fileManager.GetFolderPath(_fileManager.DesignPatternsTemplatesPath) + "\\DesignPatternsList.dsxml");
+            var readFileXml = _fileManager.ReadFile("DesignPatternsList.dsxml", _fileManager.DesignPatternsTemplatesPath);
+
+            var designPatternsXml = XDocument.Parse(readFileXml);
             var designPatternsXmlCount = designPatternsXml.Descendants("DesignPattern").Count();
             var designPatternsFilesCount = GetDesignPatternsFiles();
 
@@ -59,7 +60,8 @@ namespace DesignPatternsManagerW8
                 var files = GetDesignPatternsFiles();
                 foreach (var f in files)
                 {
-                    var doc = XDocument.Load(f);
+                    var readFile = _fileManager.ReadFile(f, _fileManager.DesignPatternsTemplatesPath);
+                    var doc = XDocument.Parse(readFile);
                     var designPattern = doc.Descendants("DesignPattern").FirstOrDefault();
                     var fileName = designPattern.Attribute("name").Value;
                     var type = designPattern.Attribute("type").Value;

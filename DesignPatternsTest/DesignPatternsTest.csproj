@@ -52,12 +52,20 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="FactoryTest.cs" />
-    <Compile Include="SingletonTests.cs" />
+    <Compile Include="FactoryBuildingTests.cs" />
+    <Compile Include="SingletonBuildingTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DesignPatternsUpdaterTests.cs" />
+    <Compile Include="DesignPatternsUpdaterWTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DesignPatternsCommonLibraryTests\DesignPatternsCommonLibraryTests.csproj">
+      <Project>{E7581EAE-F733-4497-A64D-3F84C4474FB5}</Project>
+      <Name>DesignPatternsCommonLibraryTests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
+      <Project>{7A1DBBA8-DDCD-4051-851A-31CECD1F7534}</Project>
+      <Name>DesignPatternsCommonLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DesignPatternsManager\DesignPatternsManager.csproj">
       <Project>{6dfa470d-396d-4f14-b60d-845fefdb67d0}</Project>
       <Name>DesignPatternsManager</Name>

@@ -99,7 +99,16 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Compile Include="DesignPattensFileManagerImplementation.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
+      <Project>{7a1dbba8-ddcd-4051-851a-31cecd1f7534}</Project>
+      <Name>DesignPatternsCommonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="DesignPatternsTemplates\FactoryExplicit.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -118,20 +127,6 @@
     <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="ClassInformation.cs" />
-    <Compile Include="DesignPatternBuilder.cs" />
-    <Compile Include="DesignPatternFile.cs" />
-    <Compile Include="DesignPatternsUpdater.cs" />
-    <Compile Include="FileManager.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\FileManagerLibrary\FileManagerLibrary.csproj">
-      <Project>{40869136-716D-4ACE-88DF-D7EDAD546BDB}</Project>
-      <Name>FileManagerLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

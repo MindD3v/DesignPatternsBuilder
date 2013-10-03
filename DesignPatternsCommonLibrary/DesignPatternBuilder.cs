@@ -3,18 +3,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 
-namespace DesignPatternsManager
+namespace DesignPatternsCommonLibrary
 {
     public class DesignPatternBuilder
     {
-        public static List<ClassInformation> BuildFromXml(String patternName, Dictionary<string, string> parameters, Dictionary<string,List<String>> multipleObjects)
+        private DesignPattensFileManager _designPattensFileManager;
+        public DesignPatternBuilder(DesignPattensFileManager designPattensFileManager)
+        {
+            _designPattensFileManager = designPattensFileManager;
+        }
+        public List<ClassInformation> BuildFromXml(String patternName, Dictionary<string, string> parameters, Dictionary<string,List<String>> multipleObjects)
         {
             var files = new List<ClassInformation>();
-            var designPatternTemplatesPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            var doc = XDocument.Load(Path.GetDirectoryName(designPatternTemplatesPath)
-                + "\\DesignPatternsTemplates\\" + patternName + ".xml");
+
+            var readDesignPattern = _designPattensFileManager.ReadFile(patternName +".xml",
+                                                                       _designPattensFileManager
+                                                                           .DesignPatternsTemplatesPath);
+
+            var doc = XDocument.Parse(readDesignPattern);
 
             foreach (var f in doc.Descendants("File"))
             {
@@ -34,7 +43,7 @@ namespace DesignPatternsManager
             }
             return files;
         }
-        private static ClassInformation CreateFile(XElement f, Dictionary<string, string> parameters, Dictionary<string, List<String>> multipleObjects)
+        private ClassInformation CreateFile(XElement f, Dictionary<string, string> parameters, Dictionary<string, List<String>> multipleObjects)
         {
             var classInformation = new ClassInformation();
 
@@ -65,7 +74,7 @@ namespace DesignPatternsManager
             classInformation.Content = classFile.ToString();
             return classInformation;
         }
-        private static ClassInformation CreateFile(XElement f, Dictionary<string, string> parameters, String bindedObject,
+        private ClassInformation CreateFile(XElement f, Dictionary<string, string> parameters, String bindedObject,
                                   String bindedObjectValue)
         {
             var classInformation = new ClassInformation();
@@ -85,7 +94,7 @@ namespace DesignPatternsManager
 
             return classInformation;
         }
-        private static StringBuilder ReplaceParameters(StringBuilder replaceableStringBuilder, Dictionary<string, string> parameters)
+        private StringBuilder ReplaceParameters(StringBuilder replaceableStringBuilder, Dictionary<string, string> parameters)
         {
 
             foreach (var parameter in parameters)

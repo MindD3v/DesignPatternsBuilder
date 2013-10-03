@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40869136-716D-4ACE-88DF-D7EDAD546BDB}</ProjectGuid>
+    <ProjectGuid>{7A1DBBA8-DDCD-4051-851A-31CECD1F7534}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileManagerLibrary</RootNamespace>
-    <AssemblyName>FileManagerLibrary</AssemblyName>
+    <RootNamespace>DesignPatternsCommonLibrary</RootNamespace>
+    <AssemblyName>DesignPatternsCommonLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile4</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -33,9 +33,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
+    <Compile Include="ClassInformation.cs" />
+    <Compile Include="DesignPattensFileManager.cs" />
+    <Compile Include="DesignPatternBuilder.cs" />
+    <Compile Include="DesignPatternFile.cs" />
+    <Compile Include="DesignPatternsUpdater.cs" />
     <Compile Include="IFileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
