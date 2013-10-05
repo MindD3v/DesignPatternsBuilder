@@ -10,52 +10,49 @@ using Windows.Storage.Search;
 
 namespace DesignPatternsManagerW8
 {
-    public class DesignPattensFileManagerImplementation : DesignPattensFileManager
+    public class DesignPattensFileManager : IDesignPattensFileManager
     {
-        public DesignPattensFileManagerImplementation()
-        {
-            ApplicationPath = Package.Current.InstalledLocation.Path;
-            DesignPatternsManagerPath = "DesignPatternsCommonLibrary";
-            DesignPatternsTemplatesPath = "DesignPatternsTemplates";
-        }
         #region IFileManager Members
-        public override bool FileExistsInFolder(string fileName, string folderName)
+        public async Task<bool> FileExistsInFolder(string fileName, string folderName)
         {
-            var file = GetFileFromFolderAsync(fileName, folderName).Result;
+            var file = await GetFileFromFolderAsync(fileName, folderName);
             return file != null;
         }
 
-        public override IEnumerable<string> GetFilesFromFolder(string folderName, IEnumerable<String> searchPattern)
+        public async Task<IEnumerable<string>> GetFilesFromFolder(string folderName, IEnumerable<String> searchPattern)
         {
-            var filesAsync = GetFilesFromFolderAsync(folderName, searchPattern).Result;
+            var filesAsync = await GetFilesFromFolderAsync(folderName, searchPattern);
 
             var files = from f in filesAsync
                         select f.Name;
 
             return files.ToList();
         }
-        public override String CreateFile(String fileName, String folderPath, String content)
+        public async Task<String> CreateFile(String fileName, String folderPath, String content)
         {
-            var filePath = CreateFileAsync(fileName, folderPath, content).Result;
+            var filePath = await CreateFileAsync(fileName, folderPath, content);
             return filePath;
         }
-        public override string DeleteFile(string fileName, string path)
+        public async Task<string> DeleteFile(string fileName, string path)
         {
-            var deletedFilePath = DeleteFileAsync(fileName, path).Result;
+            var deletedFilePath = await DeleteFileAsync(fileName, path);
             return deletedFilePath.Path;
         }
-        public override String GetFolderPath(string folderName)
+        public async Task<String> GetFolderPath(string folderName)
         {
-            var folder = GetStorageFolder(folderName).Result;
+            var folder = await GetStorageFolder(folderName);
             return folder.Path;
         }
 
-        public override String ReadFile(String fileName, String folderName)
+        public async Task<String> ReadFile(String fileName, String folderName)
         {
-            var fileContent = ReadFileAsync(fileName, folderName).Result;
+            var fileContent = await ReadFileAsync(fileName, folderName);
             return fileContent;
         }
-
+        public String GetDesignPatternsTemplatesPath()
+        {
+            return "DesignPatternsTemplates";
+        }
         #endregion
         #region Specific Implementation
         private async Task<StorageFile> GetFileFromFolderAsync(String fileName, String folderName)
@@ -94,11 +91,11 @@ namespace DesignPatternsManagerW8
             };
 
             var queryResult = applicationFolder.CreateFolderQueryWithOptions(queryOptions);
-            var allFolders = (await queryResult.GetFoldersAsync()).ToList();
+            var allFolders = await queryResult.GetFoldersAsync();
 
-            var folder = from f in allFolders
+            var folder = (from f in allFolders
                          where f.Name == folderName
-                         select f;
+                         select f).ToList();
 
             return folder.FirstOrDefault();
         }

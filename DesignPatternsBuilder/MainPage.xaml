@@ -6,14 +6,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:DesignPatternsBuilder"
     xmlns:common="using:DesignPatternsBuilder.Common"
+    xmlns:data="using:DesignPatternsManagerW8"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
 
+        <!--
+            Collection of grouped items displayed by this page, bound to a subset
+            of the complete item list because items in groups cannot be virtualized
+        -->
+        <CollectionViewSource
+            x:Name="groupedItemsViewSource"
+            Source="{Binding Groups}"
+            IsSourceGrouped="true"
+            ItemsPath="TopItems"
+            d:Source="{Binding AllGroups, Source={d:DesignInstance Type=data:DesignPatternDataSource, IsDesignTimeCreatable=True}}"
+            />
+
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Design Patterns Builder</x:String>
     </Page.Resources>
 
     <!--
@@ -27,6 +40,82 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Horizontal scrolling grid used in most view states -->
+        <GridView
+            x:Name="itemGridView"
+            AutomationProperties.AutomationId="ItemGridView"
+            AutomationProperties.Name="Grouped Items"
+            Grid.RowSpan="2"
+            Padding="116,137,40,46"
+            ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
+            ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
+            SelectionMode="None"
+            IsSwipeEnabled="false">
+
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>                        
+                    <VirtualizingStackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="1,0,0,6">
+                                <Button
+                                    AutomationProperties.Name="Group Title"
+                                    Style="{StaticResource TextPrimaryButtonStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding DesignPatternName}" Margin="3,-7,10,10" Style="{StaticResource GroupHeaderTextStyle}" />
+                                        <TextBlock Text="{StaticResource ChevronGlyph}" FontFamily="Segoe UI Symbol" Margin="0,-7,0,10" Style="{StaticResource GroupHeaderTextStyle}"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <VariableSizedWrapGrid Orientation="Vertical" Margin="0,0,80,0"/>
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </GridView.GroupStyle>
+        </GridView>
+
+        <!-- Vertical scrolling list only used when snapped -->
+        <ListView
+            x:Name="itemListView"
+            AutomationProperties.AutomationId="ItemListView"
+            AutomationProperties.Name="Grouped Items"
+            Grid.Row="1"
+            Visibility="Collapsed"
+            Margin="0,-10,0,0"
+            Padding="10,0,0,60"
+            ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
+            ItemTemplate="{StaticResource Standard80ItemTemplate}"
+            SelectionMode="None"
+            IsSwipeEnabled="false">
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Margin="7,7,0,0">
+                                <Button
+                                    AutomationProperties.Name="Group Title"
+                                    Style="{StaticResource TextPrimaryButtonStyle}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding Title}" Margin="3,-7,10,10" Style="{StaticResource GroupHeaderTextStyle}" />
+                                        <TextBlock Text="{StaticResource ChevronGlyph}" FontFamily="Segoe UI Symbol" Margin="0,-7,0,10" Style="{StaticResource GroupHeaderTextStyle}"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
+        </ListView>
+
         <!-- Back button and page title -->
         <Grid>
             <Grid.ColumnDefinitions>
@@ -34,17 +123,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="backButton" Click="GoBack" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}"/>
-            <TextBlock x:Name="pageTitle" Grid.Column="1" Text="Design Pattern Builder for C#" Style="{StaticResource PageHeaderTextStyle}"/>
+            <TextBlock x:Name="pageTitle" Text="{StaticResource AppName}" Grid.Column="1" IsHitTestVisible="false" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" Width="1356" Margin="0,0,0,0">
-            <GridView x:Name="DesignPatternsGridView" ItemsSource="{Binding}">
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding}"></TextBlock>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </StackPanel>
 
         <VisualStateManager.VisualStateGroups>
 
@@ -59,10 +139,17 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PortraitBackButtonStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
+
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Padding">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="96,137,10,56"/>
+                        </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
 
-                <!-- The back button and title have different styles when snapped -->
+                <!--
+                    The back button and title have different styles when snapped, and the list representation is substituted
+                    for the grid displayed in all other view states
+                -->
                 <VisualState x:Name="Snapped">
                     <Storyboard>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="backButton" Storyboard.TargetProperty="Style">
@@ -70,6 +157,13 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
+                        </ObjectAnimationUsingKeyFrames>
+
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemListView" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="itemGridView" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

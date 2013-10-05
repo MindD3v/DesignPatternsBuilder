@@ -143,7 +143,7 @@
       <Name>DesignPatternsCommonLibraryTests</Name>
     </ProjectReference>
     <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
-      <Project>{7a1dbba8-ddcd-4051-851a-31cecd1f7534}</Project>
+      <Project>{7A1DBBA8-DDCD-4051-851A-31CECD1F7534}</Project>
       <Name>DesignPatternsCommonLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using DesignPatternsCommonLibrary;
-using DesignPatternsCommonLibraryTests;
+﻿using DesignPatternsCommonLibraryTests;
 using DesignPatternsManagerW8;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using System.Linq;
 
 namespace DesignPatternsManagerW8Tests
 {
@@ -15,7 +11,7 @@ namespace DesignPatternsManagerW8Tests
         [TestInitialize]
         public void TestSetup()
         {
-            _singletonTest = new SingletonTests(new DesignPattensFileManagerImplementation());
+            _singletonTest = new SingletonTests(new DesignPattensFileManager());
         }
         [TestMethod]
         public void SingletonCanonical()

@@ -4,8 +4,10 @@ namespace DesignPatternsCommonLibrary
 {
     public class DesignPatternFile
     {
-        public String Path { get; set; }
+        public int Id { get; set; }
         public String DesignPatternName { get; set; }
-        public String DesignPatternType { get; set; }
+        public DesignPatternType DesignPatternType { get; set; }
+        public String Path { get; set; }
+        public String Description { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Linq;
 
@@ -7,48 +8,59 @@ namespace DesignPatternsCommonLibrary
 {
     public class DesignPatternsUpdater
     {
-        private DesignPattensFileManager _fileManager;
-        public DesignPatternsUpdater(DesignPattensFileManager fileManager)
+        private IDesignPattensFileManager _fileManager;
+        public DesignPatternsUpdater(IDesignPattensFileManager fileManager)
         {
             _fileManager = fileManager;
         }
-        public List<DesignPatternFile> UpdateDesignPatterns()
+        public async Task<IEnumerable<DesignPatternFile>> UpdateDesignPatterns()
         {
-            var fileExists = _fileManager.FileExistsInFolder("DesignPatternsList.dsxml",
-                                                            _fileManager.DesignPatternsTemplatesPath);
+            var fileExists = await _fileManager.FileExistsInFolder("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath());
 
             if (!fileExists)
             {
-                return UpdateDesignPatternsFile();
+                return await UpdateDesignPatternsFile();
             }
 
-            var readFileXml = _fileManager.ReadFile("DesignPatternsList.dsxml", _fileManager.DesignPatternsTemplatesPath);
+            var readFileXml = await _fileManager.ReadFile("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath());
 
             var designPatternsXml = XDocument.Parse(readFileXml);
             var designPatternsXmlCount = designPatternsXml.Descendants("DesignPattern").Count();
-            var designPatternsFilesCount = GetDesignPatternsFiles();
+            var designPatternsFilesCount = await GetDesignPatternsFiles();
 
             if (designPatternsFilesCount.Count() != designPatternsXmlCount)
             {
-                return UpdateDesignPatternsFile();
+                return await UpdateDesignPatternsFile();
             }
 
-            return (from dp in designPatternsXml.Descendants("DesignPattern")
-                    select new DesignPatternFile
-                        {
-                            DesignPatternName = dp.Value,
-                            DesignPatternType = dp.Attribute("type").Value,
-                            Path = _fileManager.DesignPatternsTemplatesPath + "\\" + dp.Value + ".xml"
-                        }).ToList();
+            var dpList = new List<DesignPatternFile>();
+            var i = 0;
+            foreach (var dp in designPatternsXml.Descendants("DesignPattern"))
+            {
+                dpList.Add(new DesignPatternFile()
+                {
+                    Id = i,
+                    DesignPatternName = dp.Value,
+                    DesignPatternType = new DesignPatternType()
+                    {
+                        Type = dp.Attribute("type").Value,
+                        ImagePath = dp.Attribute("type").Value + ".png"
+                    },
+                    Path = _fileManager.GetDesignPatternsTemplatesPath() + "\\" + dp.Value + ".xml"
+                });
+                i++;
+            }
+
+
+            return dpList;
         }
 
-        private IEnumerable<String> GetDesignPatternsFiles()
+        private async Task<IEnumerable<String>> GetDesignPatternsFiles()
         {
-            var designPatternsTemplatesFiles =
-                _fileManager.GetFilesFromFolder(_fileManager.DesignPatternsTemplatesPath, new[] { ".xml" });
+            var designPatternsTemplatesFiles = await _fileManager.GetFilesFromFolder(_fileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" });
             return designPatternsTemplatesFiles.ToList();
         }
-        private List<DesignPatternFile> UpdateDesignPatternsFile()
+        private async Task<IEnumerable<DesignPatternFile>> UpdateDesignPatternsFile()
         {
             var designPatternFiles = new List<DesignPatternFile>();
             try
@@ -57,26 +69,35 @@ namespace DesignPatternsCommonLibrary
                     new XDeclaration("1.0", "utf-8", "yes"),
                     new XElement("DesignPatterns")
                     );
-                var files = GetDesignPatternsFiles();
+                var files = await GetDesignPatternsFiles();
+                var i = 0;
                 foreach (var f in files)
                 {
-                    var readFile = _fileManager.ReadFile(f, _fileManager.DesignPatternsTemplatesPath);
+                    var readFile = await _fileManager.ReadFile(f, _fileManager.GetDesignPatternsTemplatesPath());
                     var doc = XDocument.Parse(readFile);
                     var designPattern = doc.Descendants("DesignPattern").FirstOrDefault();
                     var fileName = designPattern.Attribute("name").Value;
                     var type = designPattern.Attribute("type").Value;
+
                     var xmlFile = new XElement("DesignPattern", fileName, new XAttribute("type", type));
                     designPatternsXml.Element("DesignPatterns").Add(xmlFile);
 
                     var designPatternFile = new DesignPatternFile
                     {
+                        Id = i,
+                        Description = String.Empty,
                         DesignPatternName = fileName,
-                        DesignPatternType = type,
+                        DesignPatternType = new DesignPatternType()
+                        {
+                            Type = type,
+                            ImagePath = type +".png"
+                        },
                         Path = f
                     };
                     designPatternFiles.Add(designPatternFile);
+                    i++;
                 }
-                _fileManager.CreateFile("DesignPatternsList.dsxml", _fileManager.DesignPatternsTemplatesPath,
+                await _fileManager.CreateFile("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath(),
                                         designPatternsXml.ToString());
             }
             catch (Exception e)

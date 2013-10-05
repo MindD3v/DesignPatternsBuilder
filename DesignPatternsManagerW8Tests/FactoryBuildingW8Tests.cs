@@ -11,7 +11,7 @@ namespace DesignPatternsManagerW8Tests
         [TestInitialize]
         public void TestSetup()
         {
-            _factoryTests = new FactoryTests(new DesignPattensFileManagerImplementation());
+            _factoryTests = new FactoryTests(new DesignPattensFileManager());
         }
 
         [TestMethod]

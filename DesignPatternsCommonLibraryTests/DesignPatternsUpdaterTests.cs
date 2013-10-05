@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using System.Xml.Linq;
 using DesignPatternsCommonLibrary;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -10,21 +7,20 @@ namespace DesignPatternsCommonLibraryTests
 {
     public class DesignPatternsUpdaterTests
     {
-        private DesignPattensFileManager _designPattensFileManager;
-        public DesignPatternsUpdaterTests(DesignPattensFileManager designPattensFileManager)
+        private IDesignPattensFileManager _designPattensFileManager;
+        public DesignPatternsUpdaterTests(IDesignPattensFileManager designPattensFileManager)
         {
             _designPattensFileManager = designPattensFileManager;
         }
-        public void UpdateDesignPatternsTest()
+        public async void UpdateDesignPatternsTest()
         {
-            var files =
-                _designPattensFileManager.GetFilesFromFolder(
-                    _designPattensFileManager.DesignPatternsTemplatesPath, new[] { ".xml" });
+            var files = _designPattensFileManager.GetFilesFromFolder(
+                    _designPattensFileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" }).Result;
 
             var updater = new DesignPatternsUpdater(_designPattensFileManager);
-            var designPatternFiles = updater.UpdateDesignPatterns();
+            var designPatternFiles = updater.UpdateDesignPatterns().Result;
 
-            Assert.AreEqual(files.Count(), designPatternFiles.Count());
+           Assert.AreEqual(files.Count(), designPatternFiles.Count());
         }
         public void CreateNewDesignPattern()
         {
@@ -36,12 +32,12 @@ namespace DesignPatternsCommonLibraryTests
                 );
 
             _designPattensFileManager.CreateFile("PatternTest.xml",
-                                                 _designPattensFileManager.DesignPatternsTemplatesPath, doc.ToString());
+                                                 _designPattensFileManager.GetDesignPatternsTemplatesPath(), doc.ToString());
 
             UpdateDesignPatternsTest();
 
             _designPattensFileManager.DeleteFile("PatternTest.xml",
-                                                 _designPattensFileManager.DesignPatternsTemplatesPath);
+                                                 _designPattensFileManager.GetDesignPatternsTemplatesPath());
             UpdateDesignPatternsTest();
         }
     }

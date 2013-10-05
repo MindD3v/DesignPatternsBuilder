@@ -9,8 +9,8 @@ namespace DesignPatternsCommonLibraryTests
 {
     public class SingletonTests
     {
-        private DesignPattensFileManager _dpFileManager;
-        public SingletonTests(DesignPattensFileManager dpFileManager)
+        private IDesignPattensFileManager _dpFileManager;
+        public SingletonTests(IDesignPattensFileManager dpFileManager)
         {
             _dpFileManager = dpFileManager;
         }
@@ -23,11 +23,11 @@ namespace DesignPatternsCommonLibraryTests
                 };
 
             var designPatternBuilder = new DesignPatternBuilder(_dpFileManager);
-            var classInformation = designPatternBuilder.BuildFromXml(type, classValues, null).First();
+            var classInformation = designPatternBuilder.BuildFromXml(type, classValues, null).Result.First();
 
             _dpFileManager.CreateFile(classInformation.FileName, "TestDrops",
                                                               classInformation.Content);
-            var fileExits = _dpFileManager.FileExistsInFolder(classInformation.FileName, "TestDrops");
+            var fileExits = _dpFileManager.FileExistsInFolder(classInformation.FileName, "TestDrops").Result;
             Assert.IsTrue(fileExits);
         }
     }

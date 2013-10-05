@@ -9,8 +9,8 @@ namespace DesignPatternsCommonLibraryTests
 {
     public class FactoryTests
     {
-        private DesignPattensFileManager _dpFileManager;
-        public FactoryTests(DesignPattensFileManager dpFileManager)
+        private IDesignPattensFileManager _dpFileManager;
+        public FactoryTests(IDesignPattensFileManager dpFileManager)
         {
             _dpFileManager = dpFileManager;
         }
@@ -34,13 +34,13 @@ namespace DesignPatternsCommonLibraryTests
 
             var designPatternBuilder = new DesignPatternBuilder(_dpFileManager);
 
-            var files = designPatternBuilder.BuildFromXml(factoryType, parameters, shapes);
+            var files = designPatternBuilder.BuildFromXml(factoryType, parameters, shapes).Result;
 
             foreach (var classInformation in files)
             {
                 _dpFileManager.CreateFile(classInformation.FileName, "TestDrops",
                                                                classInformation.Content);
-                var fileExits = _dpFileManager.FileExistsInFolder(classInformation.FileName, "TestDrops");
+                var fileExits = _dpFileManager.FileExistsInFolder(classInformation.FileName, "TestDrops").Result;
                 Assert.IsTrue(fileExits);
             }
         }

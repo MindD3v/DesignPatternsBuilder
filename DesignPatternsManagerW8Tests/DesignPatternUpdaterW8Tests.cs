@@ -11,7 +11,7 @@ namespace DesignPatternsManagerW8Tests
         [TestInitialize]
         public void TestSetup()
         {
-            _designPatternsUpdaterTests = new DesignPatternsUpdaterTests(new DesignPattensFileManagerImplementation());
+            _designPatternsUpdaterTests = new DesignPatternsUpdaterTests(new DesignPattensFileManager());
         }
         [TestMethod]
         public void UpdateDesignPatternsTest()

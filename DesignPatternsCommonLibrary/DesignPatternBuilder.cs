@@ -1,27 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace DesignPatternsCommonLibrary
 {
     public class DesignPatternBuilder
     {
-        private DesignPattensFileManager _designPattensFileManager;
-        public DesignPatternBuilder(DesignPattensFileManager designPattensFileManager)
+        private IDesignPattensFileManager _designPattensFileManager;
+        public DesignPatternBuilder(IDesignPattensFileManager designPattensFileManager)
         {
             _designPattensFileManager = designPattensFileManager;
         }
-        public List<ClassInformation> BuildFromXml(String patternName, Dictionary<string, string> parameters, Dictionary<string,List<String>> multipleObjects)
+        public async Task<IEnumerable<ClassInformation>> BuildFromXml(String patternName, Dictionary<string, string> parameters, Dictionary<string,List<String>> multipleObjects)
         {
             var files = new List<ClassInformation>();
 
-            var readDesignPattern = _designPattensFileManager.ReadFile(patternName +".xml",
-                                                                       _designPattensFileManager
-                                                                           .DesignPatternsTemplatesPath);
+            var readDesignPattern = await _designPattensFileManager.ReadFile(patternName +".xml", _designPattensFileManager.GetDesignPatternsTemplatesPath());
 
             var doc = XDocument.Parse(readDesignPattern);
 

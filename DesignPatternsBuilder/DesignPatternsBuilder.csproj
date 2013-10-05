@@ -141,6 +141,16 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
+      <Project>{7a1dbba8-ddcd-4051-851a-31cecd1f7534}</Project>
+      <Name>DesignPatternsCommonLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">
+      <Project>{0af406f1-281c-4bcc-aee2-bb2d9ca0690b}</Project>
+      <Name>DesignPatternsManagerW8</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>
   </PropertyGroup>
