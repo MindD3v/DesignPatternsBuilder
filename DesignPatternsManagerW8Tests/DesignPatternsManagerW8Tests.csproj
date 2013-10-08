@@ -138,14 +138,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatternsCommonLibraryTests\DesignPatternsCommonLibraryTests.csproj">
-      <Project>{e7581eae-f733-4497-a64d-3f84c4474fb5}</Project>
-      <Name>DesignPatternsCommonLibraryTests</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
-      <Project>{7A1DBBA8-DDCD-4051-851A-31CECD1F7534}</Project>
-      <Name>DesignPatternsCommonLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">
       <Project>{0af406f1-281c-4bcc-aee2-bb2d9ca0690b}</Project>
       <Name>DesignPatternsManagerW8</Name>

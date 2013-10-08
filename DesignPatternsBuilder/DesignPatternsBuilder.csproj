@@ -109,6 +109,9 @@
     <Compile Include="Common\LayoutAwarePage.cs" />
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="DesignPatternDetailPage.xaml.cs">
+      <DependentUpon>DesignPatternDetailPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -136,16 +139,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="DesignPatternDetailPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
-      <Project>{7a1dbba8-ddcd-4051-851a-31cecd1f7534}</Project>
-      <Name>DesignPatternsCommonLibrary</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">
       <Project>{0af406f1-281c-4bcc-aee2-bb2d9ca0690b}</Project>
       <Name>DesignPatternsManagerW8</Name>

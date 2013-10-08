@@ -1,5 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DesignPattern name="FactoryExplicit" type="Factory">
+<DesignPattern name="Factory Explicit" type="Factory">
+  <Description>
+    <![CDATA[
+      Define an interface for creating an object, but let the classes that implement the interface decide which class to instantiate. The Factory method lets a class defer instantiation to subclasses.
+      The explicit factory defines a method for each of the child classes that implements the interface.
+    ]]>
+  </Description>
   <Parameters>
     <Parameter name="{NAMESPACE}" description="Namespace" multiple="false" />
     <Parameter name="{PARENT_OBJECT}" description="Parent Object" multiple="false" />

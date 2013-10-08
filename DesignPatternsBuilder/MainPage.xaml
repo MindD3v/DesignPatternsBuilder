@@ -48,9 +48,10 @@
             Grid.RowSpan="2"
             Padding="116,137,40,46"
             ItemsSource="{Binding Source={StaticResource groupedItemsViewSource}}"
-            ItemTemplate="{StaticResource Standard250x250ItemTemplate}"
             SelectionMode="None"
-            IsSwipeEnabled="false">
+            IsSwipeEnabled="false"
+            IsItemClickEnabled ="True"
+            ItemClick="ItemView_ItemClick">
 
             <GridView.ItemsPanel>
                 <ItemsPanelTemplate>                        
@@ -80,6 +81,20 @@
                     </GroupStyle.Panel>
                 </GroupStyle>
             </GridView.GroupStyle>
+            <GridView.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Left" Width="250" Height="250">
+                        <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                            <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding DesignPatternName}"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                            <TextBlock Text="{Binding DesignPatternName}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Height="60" Margin="15,0,15,0"/>
+                            <TextBlock Text="{Binding Description}" Foreground="{StaticResource ListViewItemOverlaySecondaryForegroundThemeBrush}" TextWrapping="NoWrap" Margin="15,0,15,10"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+
+            </GridView.ItemTemplate>
         </GridView>
 
         <!-- Vertical scrolling list only used when snapped -->

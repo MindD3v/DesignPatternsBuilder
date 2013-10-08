@@ -100,7 +100,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
+    <Compile Include="ClassInformation.cs" />
     <Compile Include="DesignPattensFileManager.cs" />
+    <Compile Include="DesignPatternBuilder.cs" />
+    <Compile Include="DesignPatternFile.cs" />
+    <Compile Include="DesignPatternsUpdater.cs" />
+    <Compile Include="DesignPatternType.cs" />
+    <Compile Include="IDesignPattensFileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DesignPatternsDataSource.cs" />
   </ItemGroup>
@@ -123,12 +129,6 @@
     <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DesignPatternsCommonLibrary\DesignPatternsCommonLibrary.csproj">
-      <Project>{7a1dbba8-ddcd-4051-851a-31cecd1f7534}</Project>
-      <Name>DesignPatternsCommonLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
     <VisualStudioVersion>11.0</VisualStudioVersion>

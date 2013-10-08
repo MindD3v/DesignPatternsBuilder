@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Linq;
 
-namespace DesignPatternsCommonLibrary
+namespace DesignPatternsManagerW8
 {
     public class DesignPatternsUpdater
     {
@@ -15,14 +15,14 @@ namespace DesignPatternsCommonLibrary
         }
         public async Task<IEnumerable<DesignPatternFile>> UpdateDesignPatterns(bool forceUpdate = false)
         {
-            var fileExists = await _fileManager.FileExistsInFolder("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath());
+            var fileExists = await _fileManager.FileExistsInFolder("DesignPatternsList.dsxml", await _fileManager.GetDesignPatternsTemplatesPath());
 
             if (!fileExists || forceUpdate)
             {
                 return await UpdateDesignPatternsFile();
             }
 
-            var readFileXml = await _fileManager.ReadFile("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath());
+            var readFileXml = await _fileManager.ReadFile("DesignPatternsList.dsxml", await _fileManager.GetDesignPatternsTemplatesPath());
 
             var designPatternsXml = XDocument.Parse(readFileXml);
             var designPatternsXmlCount = designPatternsXml.Descendants("DesignPattern").Count();
@@ -54,8 +54,12 @@ namespace DesignPatternsCommonLibrary
 
         private async Task<IEnumerable<String>> GetDesignPatternsFiles()
         {
-            var designPatternsTemplatesFiles = await _fileManager.GetFilesFromFolder(_fileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" });
-            return designPatternsTemplatesFiles.ToList();
+            var designPatternsTemplatesFiles = await _fileManager.GetFilesFromFolder(await _fileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" });
+
+            var files = from d in designPatternsTemplatesFiles
+                        select d.Name;
+
+            return files;
         }
         private async Task<IEnumerable<DesignPatternFile>> UpdateDesignPatternsFile()
         {
@@ -70,7 +74,7 @@ namespace DesignPatternsCommonLibrary
                 var i = 0;
                 foreach (var f in files)
                 {
-                    var readFile = await _fileManager.ReadFile(f, _fileManager.GetDesignPatternsTemplatesPath());
+                    var readFile = await _fileManager.ReadFile(f,await _fileManager.GetDesignPatternsTemplatesPath());
                     var doc = XDocument.Parse(readFile);
                     var designPattern = doc.Descendants("DesignPattern").FirstOrDefault();
                     var fileName = designPattern.Attribute("name").Value;
@@ -94,7 +98,7 @@ namespace DesignPatternsCommonLibrary
                     designPatternFiles.Add(designPatternFile);
                     i++;
                 }
-                await _fileManager.CreateFile("DesignPatternsList.dsxml", _fileManager.GetDesignPatternsTemplatesPath(),
+                await _fileManager.CreateFile("DesignPatternsList.dsxml", await _fileManager.GetDesignPatternsTemplatesPath(),
                                         designPatternsXml.ToString());
             }
             catch (Exception e)

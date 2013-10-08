@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace DesignPatternsCommonLibrary
+namespace DesignPatternsManagerW8
 {
     public class DesignPatternBuilder
     {
@@ -18,7 +18,7 @@ namespace DesignPatternsCommonLibrary
         {
             var files = new List<ClassInformation>();
 
-            var readDesignPattern = await _designPattensFileManager.ReadFile(patternPath, _designPattensFileManager.GetDesignPatternsTemplatesPath());
+            var readDesignPattern = await _designPattensFileManager.ReadFile(patternPath, await _designPattensFileManager.GetDesignPatternsTemplatesPath());
 
             var doc = XDocument.Parse(readDesignPattern);
 

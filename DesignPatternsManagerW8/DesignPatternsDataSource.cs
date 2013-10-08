@@ -12,7 +12,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
-using DesignPatternsCommonLibrary;
 
 // The data model defined by this file serves as a representative example of a strongly-typed
 // model that supports notification when members are added, removed, or modified.  The property
@@ -61,11 +60,12 @@ namespace DesignPatternsManagerW8
     /// </summary>
     public class DesignPatternDataItem : DesignPatternDataCommon
     {
-        public DesignPatternDataItem(String uniqueId, String designPatterName, String description, DesignPatternDataGroup group)
+        public DesignPatternDataItem(String uniqueId, String designPatterName, String description, String path, DesignPatternDataGroup group)
             : base(uniqueId, designPatterName)
         {
             this._group = group;
             this._description = description;
+            this._path = path;
         }
 
         private DesignPatternDataGroup _group;
@@ -79,6 +79,13 @@ namespace DesignPatternsManagerW8
         {
             get { return this._description; }
             set { this.SetProperty(ref this._description, value); }
+        }
+
+        private string _path = string.Empty;
+        public string Path
+        {
+            get { return this._path; }
+            set { this.SetProperty(ref this._path, value); }
         }
     }
 
@@ -249,7 +256,7 @@ namespace DesignPatternsManagerW8
             var fileManager = new DesignPattensFileManager();
             var designPatternUpdater = new DesignPatternsUpdater(fileManager);
 
-            var designpatternList = await designPatternUpdater.UpdateDesignPatterns();
+            var designpatternList = await designPatternUpdater.UpdateDesignPatterns(false);
             var designPatternTypesList = from p in designpatternList
                                          group p by p.DesignPatternType
                                          into t
@@ -257,11 +264,11 @@ namespace DesignPatternsManagerW8
 
             foreach (var designPatternType in designPatternTypesList)
             {
-                var group = new DesignPatternDataGroup(designPatternType.Key.Type, designPatternType.Key.Type, 
-                    fileManager.GetDesignPatternsTemplatesPath() + "\\" + designPatternType.Key.ImagePath);
+                var group = new DesignPatternDataGroup(designPatternType.Key, designPatternType.Key, 
+                    fileManager.GetDesignPatternsTemplatesPath() + "\\" + designPatternType.Key +".png");
                 foreach (var designPattern in designPatternType)
                 {
-                    var item = new DesignPatternDataItem(designPattern.Id.ToString(), designPattern.DesignPatternName, designPattern.Description, group);
+                    var item = new DesignPatternDataItem(designPattern.Id.ToString(), designPattern.DesignPatternName, designPattern.Description,designPattern.Path, group);
                     group.Items.Add(item);
                 }
                 _allGroups.Add(group);

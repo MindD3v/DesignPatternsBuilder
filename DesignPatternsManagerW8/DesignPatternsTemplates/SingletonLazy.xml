@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<DesignPattern name="SingletonLazy" type="Singleton">
+<DesignPattern name="Singleton Lazy" type="Singleton">
+  <Description>
+    <![CDATA[
+      Singleton stuff stuff
+    ]]>
+  </Description>
   <Parameters>
     <Parameter name="{NAMESPACE}" description="Namespace" />
     <Parameter name="{CLASS_NAME}" description="Class Name" />

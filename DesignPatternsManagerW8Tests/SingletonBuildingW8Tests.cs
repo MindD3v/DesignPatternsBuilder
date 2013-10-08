@@ -1,40 +1,60 @@
-﻿using DesignPatternsCommonLibraryTests;
-using DesignPatternsManagerW8;
+﻿using DesignPatternsManagerW8;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DesignPatternsManagerW8Tests
 {
     [TestClass]
     public class SingletonBuildingW8Tests
     {
-        private SingletonTests _singletonTest;
+        private IDesignPattensFileManager _dpFileManager;
         [TestInitialize]
         public void TestSetup()
         {
-            _singletonTest = new SingletonTests(new DesignPattensFileManager());
+            _dpFileManager = new DesignPattensFileManager();
         }
         [TestMethod]
         public void SingletonCanonical()
         {
-            _singletonTest.SingletonBuilder("SingletonCanonical");
+            SingletonBuilder("SingletonCanonical");
         }
 
         [TestMethod]
         public void SingletonStaticInitialization()
         {
-            _singletonTest.SingletonBuilder("SingletonStaticInitialization");
+            SingletonBuilder("SingletonStaticInitialization");
         }
 
         [TestMethod]
         public void SingletonMultithreaded()
         {
-            _singletonTest.SingletonBuilder("SingletonMultithreaded");
+            SingletonBuilder("SingletonMultithreaded");
         }
 
         [TestMethod]
         public void SingletonLazy()
         {
-            _singletonTest.SingletonBuilder("SingletonLazy");
+            SingletonBuilder("SingletonLazy");
+        }
+
+        private async void SingletonBuilder(String type)
+        {
+            var classValues = new Dictionary<string, string>
+                {
+                    {"{NAMESPACE}", "BuiltDesignPatternsTest.SingletonTest"},
+                    {"{CLASS_NAME}", "My"+type}
+                };
+
+            var designPatternBuilder = new DesignPatternBuilder(_dpFileManager);
+            var classInformation = designPatternBuilder.BuildFromXml(type+".xml", classValues, null).Result.First();
+
+            var folder = await _dpFileManager.GetApplicationStorageFolder("TestDrops");
+            await _dpFileManager.CreateFile(classInformation.FileName, folder,
+                                                              classInformation.Content);
+            var fileExits = _dpFileManager.FileExistsInFolder(classInformation.FileName, folder).Result;
+            Assert.IsTrue(fileExits);
         }
     }
 }

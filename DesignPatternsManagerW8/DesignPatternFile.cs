@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DesignPatternsCommonLibrary
+namespace DesignPatternsManagerW8
 {
     public class DesignPatternFile
     {

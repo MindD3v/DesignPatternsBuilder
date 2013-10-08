@@ -1,5 +1,4 @@
-﻿using DesignPatternsCommonLibrary;
-using DesignPatternsManagerW8;
+﻿using DesignPatternsManagerW8;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -44,6 +43,11 @@ namespace DesignPatternsBuilder
 
             var sampleDataGroups = DesignPatternDataSource.GetGroups(navParam);
             this.DefaultViewModel["Groups"] = sampleDataGroups;
+        }
+        void ItemView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var itemId = ((DesignPatternDataItem)e.ClickedItem).UniqueId;
+            this.Frame.Navigate(typeof(DesignPatternDetailPage), itemId);
         }
     }
 }
