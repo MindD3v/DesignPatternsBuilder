@@ -10,7 +10,7 @@ using Windows.Storage.Pickers;
 
 namespace DesignPatternsManagerW8
 {
-    public class DesignPattensFileManager : IDesignPattensFileManager
+    public class FileManager : IDesignPattensFileManager
     {
         public async Task<IEnumerable<StorageFile>> GetFilesFromFolder(StorageFolder folder, IEnumerable<string> searchPattern)
         {

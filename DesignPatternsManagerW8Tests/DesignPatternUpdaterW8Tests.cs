@@ -17,7 +17,7 @@ namespace DesignPatternsManagerW8Tests
         [TestInitialize]
         public void TestSetup()
         {
-            _designPattensFileManager = new DesignPattensFileManager();
+            _designPattensFileManager = new FileManager();
             _designPatternsTemplatesPath = _designPattensFileManager.GetDesignPatternsTemplatesPath().Result;
         }
         [TestMethod]
@@ -25,7 +25,7 @@ namespace DesignPatternsManagerW8Tests
         {
             var files = _designPattensFileManager.GetFilesFromFolder(_designPatternsTemplatesPath, new[] { ".xml" }).Result;
 
-            var updater = new DesignPatternsUpdater(_designPattensFileManager);
+            var updater = new DesignPatternsReader(_designPattensFileManager);
             var designPatternFiles = updater.UpdateDesignPatterns().Result;
 
             Assert.AreEqual(files.Count(), designPatternFiles.Count());

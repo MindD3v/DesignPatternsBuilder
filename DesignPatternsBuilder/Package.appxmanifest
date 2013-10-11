@@ -1,39 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-
-  <Identity Name="01e6d869-dd05-465c-9298-aeb7ce0aff49"
-            Publisher="CN=jhinojosa"
-            Version="1.0.0.0" />
-
+  <Identity Name="01e6d869-dd05-465c-9298-aeb7ce0aff49" Publisher="CN=jhinojosa" Version="1.0.0.0" />
   <Properties>
     <DisplayName>DesignPatternsBuilder</DisplayName>
     <PublisherDisplayName>jhinojosa</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.2.1</OSMinVersion>
     <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-        Executable="$targetnametoken$.exe"
-        EntryPoint="DesignPatternsBuilder.App">
-        <VisualElements
-            DisplayName="DesignPatternsBuilder"
-            Logo="Assets\Logo.png"
-            SmallLogo="Assets\SmallLogo.png"
-            Description="DesignPatternsBuilder"
-            ForegroundText="light"
-            BackgroundColor="#464646">
-            <DefaultTile ShowName="allLogos" />
-            <SplashScreen Image="Assets\SplashScreen.png" />
-        </VisualElements>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DesignPatternsBuilder.App">
+      <VisualElements DisplayName="Design Patterns Builder" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Design Patterns Builder: Let you generate Design Pattern in C#" ForegroundText="light" BackgroundColor="#3A6595">
+        <DefaultTile ShowName="allLogos" ShortName="Design Patterns" />
+        <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#3A6595" />
+        <InitialRotationPreference>
+          <Rotation Preference="landscape" />
+        </InitialRotationPreference>
+      </VisualElements>
     </Application>
   </Applications>
   <Capabilities>

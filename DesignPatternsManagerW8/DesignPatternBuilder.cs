@@ -9,7 +9,7 @@ namespace DesignPatternsManagerW8
 {
     public class DesignPatternBuilder
     {
-        private IDesignPattensFileManager _designPattensFileManager;
+        private readonly IDesignPattensFileManager _designPattensFileManager;
         public DesignPatternBuilder(IDesignPattensFileManager designPattensFileManager)
         {
             _designPattensFileManager = designPattensFileManager;
@@ -32,10 +32,8 @@ namespace DesignPatternsManagerW8
                 else if (type != null && type.Value == "Multiple")
                 {
                     var bind = f.Attribute("bind").Value;
-                    foreach (var obj in multipleObjects[bind])
-                    {
-                        files.Add(CreateFile(f, parameters, bind, obj));
-                    }
+
+                    files.AddRange(multipleObjects[bind].Select(obj => CreateFile(f, parameters, bind, obj)));
                 }
             }
             return files;
@@ -60,10 +58,8 @@ namespace DesignPatternsManagerW8
                 var multiTemplateBind = multiTemplate.Attribute("bind").Value;
                 var multipleObjectList = multipleObjects[multiTemplateBind];
                 var templateBuilder = new StringBuilder();
-                foreach (var obj in multipleObjectList)
-                {
-                    templateBuilder = templateBuilder.Append(multiTemplateValue).Replace(multiTemplateBind, obj);
-                }
+                
+                templateBuilder = multipleObjectList.Aggregate(templateBuilder, (current, obj) => current.Append(multiTemplateValue).Replace(multiTemplateBind, obj));
 
                 classFile = classFile.Replace(multiTemplateName, templateBuilder.ToString());
             }
@@ -93,12 +89,7 @@ namespace DesignPatternsManagerW8
         }
         private StringBuilder ReplaceParameters(StringBuilder replaceableStringBuilder, Dictionary<string, string> parameters)
         {
-
-            foreach (var parameter in parameters)
-            {
-                replaceableStringBuilder = replaceableStringBuilder.Replace(parameter.Key, parameter.Value);
-            }
-            return replaceableStringBuilder;
+            return parameters.Aggregate(replaceableStringBuilder, (current, parameter) => current.Replace(parameter.Key, parameter.Value));
         }
     }
 }

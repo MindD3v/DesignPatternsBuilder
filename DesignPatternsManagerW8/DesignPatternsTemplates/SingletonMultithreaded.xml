@@ -2,7 +2,8 @@
 <DesignPattern name="Singleton Multithreaded" type="Singleton">
   <Description>
     <![CDATA[
-      Singleton stuff stuff
+      The singleton pattern is a design pattern that restricts the Instantiation of a class to one object. If the client use the instance of the singleton, the singleton will return the same instance, every time.
+      The multithreaded version sets a lock on the instance variable, until the lock is released, any other thread will be paused.
     ]]>
   </Description>
   <Parameters>

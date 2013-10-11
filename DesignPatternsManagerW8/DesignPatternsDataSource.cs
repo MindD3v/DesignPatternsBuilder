@@ -2,12 +2,6 @@
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using Windows.ApplicationModel.Resources.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using System.Collections.Specialized;
@@ -29,6 +23,7 @@ namespace DesignPatternsManagerW8
     [Windows.Foundation.Metadata.WebHostHidden]
     public abstract class DesignPatternDataCommon : BindableBase
     {
+        
         public DesignPatternDataCommon(String uniqueId, String designPatterName)
         {
             this._uniqueId = uniqueId;
@@ -60,12 +55,15 @@ namespace DesignPatternsManagerW8
     /// </summary>
     public class DesignPatternDataItem : DesignPatternDataCommon
     {
-        public DesignPatternDataItem(String uniqueId, String designPatterName, String description, String path, DesignPatternDataGroup group)
+        private Uri _baseUri;
+        public DesignPatternDataItem(String uniqueId, String designPatterName, String description, String path, String imagePath, DesignPatternDataGroup group)
             : base(uniqueId, designPatterName)
         {
-            this._group = group;
-            this._description = description;
-            this._path = path;
+            _group = group;
+            _description = description;
+            _path = path;
+            _imagePath = imagePath;
+            _baseUri = new Uri("ms-appx:///DesignPatternsManagerW8/DesignPatternsTemplates/");
         }
 
         private DesignPatternDataGroup _group;
@@ -87,26 +85,17 @@ namespace DesignPatternsManagerW8
             get { return this._path; }
             set { this.SetProperty(ref this._path, value); }
         }
-    }
-
-    /// <summary>
-    /// Generic group data model.
-    /// </summary>
-    public class DesignPatternDataGroup : DesignPatternDataCommon
-    {
-        private static Uri _baseUri = new Uri("ms-appx:///");
-
         private ImageSource _image = null;
         private String _imagePath = null;
         public ImageSource Image
         {
             get
             {
-                if (this._image == null && this._imagePath != null)
+                if (_image == null && _imagePath != null)
                 {
-                    this._image = new BitmapImage(new Uri(DesignPatternDataGroup._baseUri, this._imagePath));
+                    _image = new BitmapImage(new Uri(_baseUri, _imagePath));
                 }
-                return this._image;
+                return _image;
             }
 
             set
@@ -122,12 +111,20 @@ namespace DesignPatternsManagerW8
             this._imagePath = path;
             this.OnPropertyChanged("Image");
         }
+        
+    }
 
-        public DesignPatternDataGroup(String uniqueId, String designPatterName, String imagePath)
+    /// <summary>
+    /// Generic group data model.
+    /// </summary>
+    public class DesignPatternDataGroup : DesignPatternDataCommon
+    {
+        
+        public DesignPatternDataGroup(String uniqueId, String designPatterName)
             : base(uniqueId, designPatterName)
         {
             Items.CollectionChanged += ItemsCollectionChanged;
-            _imagePath = imagePath;
+            
         }
         
         private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -253,10 +250,10 @@ namespace DesignPatternsManagerW8
         }
         public async Task PopulateDesignPatterns()
         {
-            var fileManager = new DesignPattensFileManager();
-            var designPatternUpdater = new DesignPatternsUpdater(fileManager);
+            var fileManager = new FileManager();
+            var designPatternUpdater = new DesignPatternsReader(fileManager);
 
-            var designpatternList = await designPatternUpdater.UpdateDesignPatterns(false);
+            var designpatternList = await designPatternUpdater.UpdateDesignPatterns(true);
             var designPatternTypesList = from p in designpatternList
                                          group p by p.DesignPatternType
                                          into t
@@ -264,11 +261,11 @@ namespace DesignPatternsManagerW8
 
             foreach (var designPatternType in designPatternTypesList)
             {
-                var group = new DesignPatternDataGroup(designPatternType.Key, designPatternType.Key, 
-                    fileManager.GetDesignPatternsTemplatesPath() + "\\" + designPatternType.Key +".png");
+                var group = new DesignPatternDataGroup(designPatternType.Key, designPatternType.Key);
                 foreach (var designPattern in designPatternType)
                 {
-                    var item = new DesignPatternDataItem(designPattern.Id.ToString(), designPattern.DesignPatternName, designPattern.Description,designPattern.Path, group);
+                    var item = new DesignPatternDataItem(designPattern.Id.ToString(), designPattern.DesignPatternName,
+                                                         designPattern.Description, designPattern.Path, designPattern.Path.Replace(".xml", ".png"), group);
                     group.Items.Add(item);
                 }
                 _allGroups.Add(group);

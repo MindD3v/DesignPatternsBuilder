@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<DesignPattern name="Active Object" type="Command">
+  <Description>
+    <![CDATA[
+      The active object design pattern decouples method execution from method invocation for objects that each reside in their own thread of control. The goal is to introduce concurrency, by using asynchronous method invocation and a scheduler for handling requests.
+    ]]>
+  </Description>
+  <Parameters>
+    <Parameter name="{NAMESPACE}" description="Namespace" multiple="false" />
+    <Parameter name="{ACTIVE_OBJECT}" description="Active Object" multiple="false" />
+    <Parameter name="{COMMAND}" description="Commands" multiple="true" />
+  </Parameters>
+  <Pattern>
+    <File>
+      <Name>
+        <![CDATA[
+          {ACTIVE_OBJECT}
+        ]]>
+      </Name>
+      <Extension>
+        .cs
+      </Extension>
+      <Implementation>
+        <![CDATA[
+using System.Collections.Generic;
+
+namespace {NAMESPACE}
+{
+    public class {ACTIVE_OBJECT}
+    {
+        private List<ICommand> _commands = new List<ICommand>();
+
+        public void AddCommand(ICommand c)
+        {
+            _commands.Add(c);
+        }
+        public void Run()
+        {
+            while (_commands.Count > 0)
+            {
+                var c = _commands[0];
+                _commands.RemoveAt(0);
+                c.Execute();
+            }
+        }
+    }
+}
+        ]]>
+      </Implementation>
+    </File>
+    <File>
+      <Name>
+        <![CDATA[
+          ICommand
+        ]]>
+      </Name>
+      <Extension>
+        .cs
+      </Extension>
+      <Implementation>
+        <![CDATA[
+namespace {NAMESPACE}
+{
+    public interface ICommand
+    {
+        void Execute();
+    }
+}
+        ]]>
+      </Implementation>
+    </File>
+    <File type="Multiple" bind="{COMMAND}">
+      <Name>
+        <![CDATA[
+          {COMMAND}
+        ]]>
+      </Name>
+      <Extension>
+        .cs
+      </Extension>
+      <Implementation>
+        <![CDATA[
+using System;
+
+namespace {NAMESPACE}
+{
+    public class {COMMAND} :ICommand
+    {
+        public void Execute()
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+        ]]>
+      </Implementation>
+    </File>
+  </Pattern>
+</DesignPattern>

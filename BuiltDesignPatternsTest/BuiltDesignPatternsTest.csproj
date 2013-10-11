@@ -57,6 +57,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ActiveObject\ActiveObjectEngine.cs" />
+    <Compile Include="ActiveObject\Drawer.cs" />
+    <Compile Include="ActiveObject\ICommand.cs" />
+    <Compile Include="ActiveObject\Painter.cs" />
     <Compile Include="FactoryTest\FactoryExplicitTests.cs" />
     <Compile Include="FactoryTest\FactoryHardcodedStringsTests.cs" />
     <Compile Include="FactoryTest\ShapeFactoryExplicit\Circle.cs" />

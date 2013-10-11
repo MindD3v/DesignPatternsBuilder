@@ -2,7 +2,8 @@
 <DesignPattern name="Singleton Static Initialization" type="Singleton">
   <Description>
     <![CDATA[
-      Singleton stuff stuff
+      The singleton pattern is a design pattern that restricts the Instantiation of a class to one object. If the client use the instance of the singleton, the singleton will return the same instance, every time.
+      The static initialization form uses the static object initializer, delegating the responsibility to the CLR to initialize the object. This form is a kind of lazy initialization.
     ]]>
   </Description>
   <Parameters>

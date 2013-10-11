@@ -12,7 +12,7 @@ namespace DesignPatternsManagerW8Tests
         [TestInitialize]
         public void TestSetup()
         {
-            _dpFileManager = new DesignPattensFileManager();
+            _dpFileManager = new FileManager();
         }
 
         [TestMethod]

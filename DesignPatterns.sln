@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuiltDesignPatternsTest", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPatternsBuilder", "DesignPatternsBuilder\DesignPatternsBuilder.csproj", "{515AD331-7D7C-427E-8724-C1E3299AFE3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPatternsManagerW8", "DesignPatternsManagerW8\DesignPatternsManagerW8.csproj", "{0AF406F1-281C-4BCC-AEE2-BB2D9CA0690B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPatternsManager", "DesignPatternsManagerW8\DesignPatternsManager.csproj", "{0AF406F1-281C-4BCC-AEE2-BB2D9CA0690B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DesignPatternsManagerW8Tests", "DesignPatternsManagerW8Tests\DesignPatternsManagerW8Tests.csproj", "{4168DFA8-9609-4D02-AD65-F5AF5A369D43}"
 EndProject

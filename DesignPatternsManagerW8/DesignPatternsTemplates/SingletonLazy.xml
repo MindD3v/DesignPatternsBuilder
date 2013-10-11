@@ -2,7 +2,8 @@
 <DesignPattern name="Singleton Lazy" type="Singleton">
   <Description>
     <![CDATA[
-      Singleton stuff stuff
+      The singleton pattern is a design pattern that restricts the Instantiation of a class to one object. If the client use the instance of the singleton, the singleton will return the same instance, every time.
+      The lazy form uses the generic Lazy<T> to instantiate the singleton until the singleton is called.
     ]]>
   </Description>
   <Parameters>

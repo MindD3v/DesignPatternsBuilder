@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace DesignPatternsManagerW8
 {
-    public class DesignPatternsUpdater
+    public class DesignPatternsReader
     {
         private IDesignPattensFileManager _fileManager;
-        public DesignPatternsUpdater(IDesignPattensFileManager fileManager)
+        public DesignPatternsReader(IDesignPattensFileManager fileManager)
         {
             _fileManager = fileManager;
         }
@@ -37,7 +37,7 @@ namespace DesignPatternsManagerW8
             var i = 0;
             foreach (var dp in designPatternsXml.Descendants("DesignPattern"))
             {
-                dpList.Add(new DesignPatternFile()
+                dpList.Add(new DesignPatternFile
                 {
                     Id = i,
                     DesignPatternName = dp.Descendants("Name").FirstOrDefault().Value,
@@ -51,7 +51,26 @@ namespace DesignPatternsManagerW8
 
             return dpList;
         }
+        public async Task<IEnumerable<DesignPatternParameter>> GetParametersFromDesignPattern(String patternPath)
+        {
+            var fileManager = new FileManager();
+            var readFile = await fileManager.ReadFile(patternPath, await fileManager.GetDesignPatternsTemplatesPath());
+            var designPatternXml = XDocument.Parse(readFile);
 
+            var parameters = designPatternXml.Descendants("Parameter");
+
+            var patternParameters = from p in parameters
+                                    select new DesignPatternParameter
+                                        {
+                                            Name = p.Attribute("name").Value,
+                                            Description = p.Attribute("description").Value,
+                                            IsMultiple =
+                                                p.Attribute("multiple") != null &&
+                                                Boolean.Parse(p.Attribute("multiple").Value)
+                                        };
+
+            return patternParameters;
+        }
         private async Task<IEnumerable<String>> GetDesignPatternsFiles()
         {
             var designPatternsTemplatesFiles = await _fileManager.GetFilesFromFolder(await _fileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" });

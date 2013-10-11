@@ -101,29 +101,55 @@
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
     <Compile Include="ClassInformation.cs" />
-    <Compile Include="DesignPattensFileManager.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="DesignPatternBuilder.cs" />
     <Compile Include="DesignPatternFile.cs" />
-    <Compile Include="DesignPatternsUpdater.cs" />
+    <Compile Include="DesignPatternParameter.cs" />
+    <Compile Include="DesignPatternsReader.cs" />
     <Compile Include="DesignPatternType.cs" />
     <Compile Include="IDesignPattensFileManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DesignPatternsDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="DesignPatternsTemplates\ActiveObject.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\ActiveObject.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\FactoryExplicit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DesignPatternsTemplates\FactoryExplicit.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="DesignPatternsTemplates\FactoryHardcodedStrings.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DesignPatternsTemplates\FactoryHardcodedStrings.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DesignPatternsTemplates\SingletonCanonical.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DesignPatternsTemplates\SingletonCanonical.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\SingletonLazy.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DesignPatternsTemplates\SingletonLazy.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DesignPatternsTemplates\SingletonMultithreaded.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="DesignPatternsTemplates\SingletonMultithreaded.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DesignPatternsTemplates\SingletonStaticInitialization.xml">

@@ -2,7 +2,8 @@
 <DesignPattern name="Singleton Canonical" type="Singleton">
   <Description>
     <![CDATA[
-      Singleton stuff stuff
+      The singleton pattern is a design pattern that restricts the Instantiation of a class to one object. If the client use the instance of the singleton, the singleton will return the same instance, every time.
+      The canonical form doesn't care about multithreaded environments or when the class is initialized.
     ]]>
   </Description>
   <Parameters>

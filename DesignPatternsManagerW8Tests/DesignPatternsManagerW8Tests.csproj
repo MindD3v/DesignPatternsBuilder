@@ -138,9 +138,9 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">
+    <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManager.csproj">
       <Project>{0af406f1-281c-4bcc-aee2-bb2d9ca0690b}</Project>
-      <Name>DesignPatternsManagerW8</Name>
+      <Name>DesignPatternsManager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">

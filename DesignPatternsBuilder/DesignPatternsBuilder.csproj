@@ -127,6 +127,9 @@
     <Content Include="Assets\Logo.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\SplashScreen.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-140.png" />
+    <Content Include="Assets\SplashScreen.scale-180.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Common\ReadMe.txt" />
   </ItemGroup>
@@ -149,9 +152,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManagerW8.csproj">
+    <ProjectReference Include="..\DesignPatternsManagerW8\DesignPatternsManager.csproj">
       <Project>{0af406f1-281c-4bcc-aee2-bb2d9ca0690b}</Project>
-      <Name>DesignPatternsManagerW8</Name>
+      <Name>DesignPatternsManager</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '11.0' ">
