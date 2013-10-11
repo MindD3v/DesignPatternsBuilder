@@ -50,14 +50,16 @@
                     <RowDefinition Height="5*" />
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="4*" />
-                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <Image x:Name="imgPattern" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Item.Image}" Margin="0,0,0,20"/>
                 <TextBlock x:Name="Type" Grid.Column="0"  Grid.Row="1" Text="Type:" Style="{StaticResource Label}"/>
                 <TextBlock x:Name="Description" Grid.Column="0"  Grid.Row="2" Text="Description:" Style="{StaticResource Label}"/>
                 <TextBlock x:Name="Type2" Grid.Column="1"  Grid.Row="1" Text="{Binding Item.Group.DesignPatternName}"  Margin="15,0,15,0" Style="{StaticResource Content}"/>
                 <TextBlock x:Name="Description2" Grid.Column="1"  Grid.Row="2" Text="{Binding Item.Description}" TextWrapping="Wrap"  Margin="15,0,15,0" Style="{StaticResource Content}"/>
-                <Button x:Name="btnGenerate" Grid.Column="1" Grid.Row="3" Content="Generate Design Pattern" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnGenerate_Click"/>
+                <Button x:Name="btnGenerate" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnGenerate_Click">
+                    <TextBlock Text="Generate Design Pattern" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>   
+                 </Button>
             </Grid>
             <Grid Margin="0,0,0,0" Grid.Column="1" Grid.Row="0" x:Name="ControlsGridView" Grid.RowSpan="2">
                 <Grid.ColumnDefinitions>
@@ -139,6 +141,9 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Description2" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ContentSnapped}"></DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btnGenerate" Storyboard.TargetProperty="FontSize">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="14"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

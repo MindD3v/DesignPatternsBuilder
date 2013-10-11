@@ -80,6 +80,17 @@ namespace DesignPatternsBuilder
                         Margin = new Thickness(0, 15, 0, 15),
                         Style = Application.Current.Resources["Label"] as Style
                     };
+                label.LayoutUpdated += (sender, o) =>
+                    {
+                        if (ApplicationViewStates.CurrentState.Name == "Snapped")
+                        {
+                            label.Style = Application.Current.Resources["LabelSnapped"] as Style;
+                        }
+                        else
+                        {
+                            label.Style = Application.Current.Resources["Label"] as Style;
+                        }
+                    };
                 Grid.SetRow(label, i);
                 Grid.SetColumn(label, 0);
 
@@ -89,6 +100,12 @@ namespace DesignPatternsBuilder
                         {
                             Name = param.Name,
                             Margin = new Thickness(15, 15, 75, 15)
+                        };
+                    text.LayoutUpdated += (sender, o) =>
+                        {
+                            text.Margin = ApplicationViewStates.CurrentState.Name == "Snapped"
+                                              ? new Thickness(15, 15, 15, 15)
+                                              : new Thickness(15, 15, 75, 15);
                         };
                     Grid.SetRow(text, i);
                     Grid.SetColumn(text, 1);
@@ -104,6 +121,7 @@ namespace DesignPatternsBuilder
             }
 
         }
+
         private void CreateMultipleParameterGrid(DesignPatternParameter param, int rowNumber)
         {
             //Create the outer Grid to hold the Grid that will contain the list and the buttons
@@ -114,28 +132,33 @@ namespace DesignPatternsBuilder
             parameterGrid.ColumnDefinitions.Add(new ColumnDefinition());
             parameterGrid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(2, GridUnitType.Star)});
             parameterGrid.RowDefinitions.Add(new RowDefinition{Height = new GridLength(1,GridUnitType.Star)});
-            //parameterGrid.Loaded += (sender, args) =>
-            //    {
-            //        var g = (Grid)sender;
-            //        var p = (Grid)g.Parent;
-            //        g.MaxHeight = p.ActualHeight;
-            //    };
-
-            var parameterListGrid = new ListView
+            parameterGrid.Loaded += (sender, args) =>
                 {
-                    SelectionMode = ListViewSelectionMode.None,
-                    Name = param.Name + "list"
+                    var g = (Grid)sender;
+                    var p = (Grid)g.Parent;
+                    g.MaxHeight = p.ActualHeight;
+                };
+            parameterGrid.LayoutUpdated += (sender, o) =>
+                {
+                    var g = parameterGrid;
+                    var p = (Grid)g.Parent;
+                    g.MaxHeight = p.ActualHeight;
                 };
 
+            var parameterListGrid = new StackPanel()
+                {
+                    
+                    Name = param.Name + "list"
+                };
             var firstParameterInList = new TextBox
             {
-                Name = param.Name + "_1",
-                Margin = new Thickness(15, 15, 75, 15)
+                Name = param.Name + "_1"
             };
 
-            firstParameterInList.Loaded += firstParameterInList_Loaded;
+            firstParameterInList.LayoutUpdated += (sender, o) => UpdateTextBoxLayout(firstParameterInList);
+
             
-            parameterListGrid.Items.Add(firstParameterInList);
+            parameterListGrid.Children.Add(firstParameterInList);
 
             var addParameterButton = new Button
             {
@@ -157,12 +180,13 @@ namespace DesignPatternsBuilder
             ControlsGridView.Children.Add(parameterGrid);
         }
 
-        void firstParameterInList_Loaded(object sender, RoutedEventArgs e)
+        void UpdateTextBoxLayout(TextBox sender)
         {
-            var t = (TextBox)sender;
-            var g = (ListView)t.Parent;
-            t.Width = g.ActualWidth;
-            t.UpdateLayout();
+            sender.Margin = ApplicationViewStates.CurrentState.Name == "Snapped"
+                                                      ? new Thickness(15, 15, 15, 15)
+                                                      : new Thickness(15, 15, 80, 15);
+            var g = (StackPanel)sender.Parent;
+            sender.Width = g.ActualWidth;
         }
         void buttonAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -170,12 +194,12 @@ namespace DesignPatternsBuilder
             var gridSender = (Grid)buttonSender.Parent;
 
             var gridSenderChilds = from i in gridSender.Children
-                                   where i is ListView
-                                   select (ListView) i;
+                                   where i is StackPanel
+                                   select (StackPanel) i;
 
             var textboxGrid = gridSenderChilds.FirstOrDefault(n => n.Name == gridSender.Name + "list");
 
-            var textboxes = from t in textboxGrid.Items
+            var textboxes = from t in textboxGrid.Children
                             where t is TextBox
                             select (TextBox)t;
 
@@ -187,14 +211,16 @@ namespace DesignPatternsBuilder
 
             var text = new TextBox
                 {
-                    Name = gridSender.Name + "_" + (latsNumber + 1).ToString(),
-                    Margin = new Thickness(15, 15, 75, 15)
+                    Name = gridSender.Name + "_" + (latsNumber + 1).ToString()
                 };
-            text.Loaded += firstParameterInList_Loaded;
+
+
+            text.LayoutUpdated += (o, o1) => UpdateTextBoxLayout(text);
+            
             Grid.SetRow(text, latsNumber);
             Grid.SetColumn(text, 0);
 
-            textboxGrid.Items.Add(text);
+            textboxGrid.Children.Add(text);
         }
         private Tuple<Grid, DesignPatternParameter> GetParameterGrid(DesignPatternParameter dpParameter)
         {
@@ -244,10 +270,10 @@ namespace DesignPatternsBuilder
                 foreach (var g in gridParameters)
                 {
                     var list = (from i in g.Item1.Children
-                                where i is ListView
-                                select (ListView)i).FirstOrDefault();
+                                where i is StackPanel
+                                select (StackPanel)i).FirstOrDefault();
 
-                    var textBoxesFromList = (from t in list.Items
+                    var textBoxesFromList = (from t in list.Children
                               where t is TextBox
                               select (TextBox)t).ToList();
 
