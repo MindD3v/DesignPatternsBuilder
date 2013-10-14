@@ -1,4 +1,4 @@
-=================FEATURES=================
+<b>=================FEATURES=================><b>
 *Group and display design patterns available
 *Select the design pattern that you will like to generate
 *Display the design pattern details: Name, Type, Description and Image
