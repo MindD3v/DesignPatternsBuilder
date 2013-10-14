@@ -1,4 +1,4 @@
-<b>=================FEATURES=================><b>
+<b>=================FEATURES=================<b>
 <p>
 *Group and display design patterns available
 *Select the design pattern that you will like to generate
