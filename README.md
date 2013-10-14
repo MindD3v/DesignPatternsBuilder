@@ -6,7 +6,7 @@
 <li>Fill the form to generate the design pattern</li>
 <li>Works on landscape and portrait</li>
 <li>XML to build new Design Patterns</li>
-<ul>
+</ul>
 
 <b>=================PENDING=================</b>
 <ul>
