@@ -124,11 +124,16 @@ namespace DesignPatternsBuilder
             parameterGrid.LayoutUpdated += (sender, o) =>
                 {
                     var g = parameterGrid;
-                    var p = (Grid)g.Parent;
-                    g.MaxHeight = p.ActualHeight;
+                    var p = g.Parent as Grid;
+                    if( p != null)
+                        g.MaxHeight = p.ActualHeight;
                 };
 
-            var parameterListGrid = new ListView
+            var scroll = new ScrollViewer();
+            scroll.VerticalScrollMode = ScrollMode.Auto;
+            scroll.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            scroll.Name = param.Name + "list";
+            var parameterListGrid = new StackPanel
                 {
                     
                     Name = param.Name + "list"
@@ -141,7 +146,9 @@ namespace DesignPatternsBuilder
             firstParameterInList.LayoutUpdated += (sender, o) => UpdateTextBoxLayout(firstParameterInList);
 
             
-            parameterListGrid.Items.Add(firstParameterInList);
+            parameterListGrid.Children.Add(firstParameterInList);
+
+            scroll.Content = parameterListGrid;
 
             var addParameterButton = new Button
             {
@@ -154,7 +161,7 @@ namespace DesignPatternsBuilder
             Grid.SetColumn(addParameterButton, 0);
             Grid.SetRow(addParameterButton, 1);
 
-            parameterGrid.Children.Add(parameterListGrid);
+            parameterGrid.Children.Add(scroll);
             parameterGrid.Children.Add(addParameterButton);
 
             Grid.SetRow(parameterGrid, rowNumber);
@@ -168,7 +175,7 @@ namespace DesignPatternsBuilder
             sender.Margin = ApplicationViewStates.CurrentState.Name == "Snapped"
                                                       ? new Thickness(15, 15, 15, 15)
                                                       : new Thickness(15, 15, 80, 15);
-            var g = (ListView)sender.Parent;
+            var g = (StackPanel)sender.Parent;
             sender.Width = g.ActualWidth;
         }
         void buttonAdd_Click(object sender, RoutedEventArgs e)
@@ -176,13 +183,15 @@ namespace DesignPatternsBuilder
             var buttonSender = (Button)sender;
             var gridSender = (Grid)buttonSender.Parent;
 
-            var gridSenderChilds = from i in gridSender.Children
-                                   where i is ListView
-                                   select (ListView)i;
+            var scrollSenderChildren = from i in gridSender.Children
+                                   where i is ScrollViewer
+                                   select (ScrollViewer)i;
 
-            var textboxGrid = gridSenderChilds.FirstOrDefault(n => n.Name == gridSender.Name + "list");
+            var scroll = scrollSenderChildren.FirstOrDefault(s => s.Name == gridSender.Name + "list");
 
-            var textboxes = from t in textboxGrid.Items
+            var textboxGrid = scroll.Content as StackPanel;
+
+            var textboxes = from t in textboxGrid.Children
                             where t is TextBox
                             select (TextBox)t;
 
@@ -203,7 +212,7 @@ namespace DesignPatternsBuilder
             Grid.SetRow(text, latsNumber);
             Grid.SetColumn(text, 0);
 
-            textboxGrid.Items.Add(text);
+            textboxGrid.Children.Add(text);
         }
         private Tuple<Grid, DesignPatternParameter> GetParameterGrid(DesignPatternParameter dpParameter)
         {
