@@ -80,17 +80,6 @@ namespace DesignPatternsBuilder
                         Margin = new Thickness(0, 15, 0, 15),
                         Style = Application.Current.Resources["Label"] as Style
                     };
-                label.LayoutUpdated += (sender, o) =>
-                    {
-                        if (ApplicationViewStates.CurrentState.Name == "Snapped")
-                        {
-                            label.Style = Application.Current.Resources["LabelSnapped"] as Style;
-                        }
-                        else
-                        {
-                            label.Style = Application.Current.Resources["Label"] as Style;
-                        }
-                    };
                 Grid.SetRow(label, i);
                 Grid.SetColumn(label, 0);
 
@@ -100,12 +89,6 @@ namespace DesignPatternsBuilder
                         {
                             Name = param.Name,
                             Margin = new Thickness(15, 15, 75, 15)
-                        };
-                    text.LayoutUpdated += (sender, o) =>
-                        {
-                            text.Margin = ApplicationViewStates.CurrentState.Name == "Snapped"
-                                              ? new Thickness(15, 15, 15, 15)
-                                              : new Thickness(15, 15, 75, 15);
                         };
                     Grid.SetRow(text, i);
                     Grid.SetColumn(text, 1);
@@ -145,7 +128,7 @@ namespace DesignPatternsBuilder
                     g.MaxHeight = p.ActualHeight;
                 };
 
-            var parameterListGrid = new StackPanel()
+            var parameterListGrid = new ListView
                 {
                     
                     Name = param.Name + "list"
@@ -158,7 +141,7 @@ namespace DesignPatternsBuilder
             firstParameterInList.LayoutUpdated += (sender, o) => UpdateTextBoxLayout(firstParameterInList);
 
             
-            parameterListGrid.Children.Add(firstParameterInList);
+            parameterListGrid.Items.Add(firstParameterInList);
 
             var addParameterButton = new Button
             {
@@ -185,7 +168,7 @@ namespace DesignPatternsBuilder
             sender.Margin = ApplicationViewStates.CurrentState.Name == "Snapped"
                                                       ? new Thickness(15, 15, 15, 15)
                                                       : new Thickness(15, 15, 80, 15);
-            var g = (StackPanel)sender.Parent;
+            var g = (ListView)sender.Parent;
             sender.Width = g.ActualWidth;
         }
         void buttonAdd_Click(object sender, RoutedEventArgs e)
@@ -194,12 +177,12 @@ namespace DesignPatternsBuilder
             var gridSender = (Grid)buttonSender.Parent;
 
             var gridSenderChilds = from i in gridSender.Children
-                                   where i is StackPanel
-                                   select (StackPanel) i;
+                                   where i is ListView
+                                   select (ListView)i;
 
             var textboxGrid = gridSenderChilds.FirstOrDefault(n => n.Name == gridSender.Name + "list");
 
-            var textboxes = from t in textboxGrid.Children
+            var textboxes = from t in textboxGrid.Items
                             where t is TextBox
                             select (TextBox)t;
 
@@ -220,7 +203,7 @@ namespace DesignPatternsBuilder
             Grid.SetRow(text, latsNumber);
             Grid.SetColumn(text, 0);
 
-            textboxGrid.Children.Add(text);
+            textboxGrid.Items.Add(text);
         }
         private Tuple<Grid, DesignPatternParameter> GetParameterGrid(DesignPatternParameter dpParameter)
         {

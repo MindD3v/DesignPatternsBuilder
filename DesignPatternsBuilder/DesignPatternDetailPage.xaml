@@ -55,8 +55,8 @@
                 <Image x:Name="imgPattern" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Source="{Binding Item.Image}" Margin="0,0,0,20"/>
                 <TextBlock x:Name="Type" Grid.Column="0"  Grid.Row="1" Text="Type:" Style="{StaticResource Label}"/>
                 <TextBlock x:Name="Description" Grid.Column="0"  Grid.Row="2" Text="Description:" Style="{StaticResource Label}"/>
-                <TextBlock x:Name="Type2" Grid.Column="1"  Grid.Row="1" Text="{Binding Item.Group.DesignPatternName}"  Margin="15,0,15,0" Style="{StaticResource Content}"/>
-                <TextBlock x:Name="Description2" Grid.Column="1"  Grid.Row="2" Text="{Binding Item.Description}" TextWrapping="Wrap"  Margin="15,0,15,0" Style="{StaticResource Content}"/>
+                <TextBlock x:Name="Type2" Grid.Column="1"  Grid.Row="1" Text="{Binding Item.Group.DesignPatternName}"  Style="{StaticResource Content}"/>
+                <TextBlock x:Name="Description2" Grid.Column="1"  Grid.Row="2" Text="{Binding Item.Description}" TextWrapping="Wrap" Style="{StaticResource Content}"/>
                 <Button x:Name="btnGenerate" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Top" Click="btnGenerate_Click">
                     <TextBlock Text="Generate Design Pattern" TextWrapping="Wrap" TextAlignment="Center"></TextBlock>   
                  </Button>
@@ -112,23 +112,14 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="pageTitle" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SnappedPageHeaderTextStyle}"/>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlsGridView" Storyboard.TargetProperty="(Grid.Column)">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="0"></DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlsGridView" Storyboard.TargetProperty="(Grid.Row)">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"></DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlsGridView" Storyboard.TargetProperty="(Grid.ColumnSpan)">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"></DiscreteObjectKeyFrame>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlsGridView" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="(Grid.ColumnSpan)">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="2"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ControlsGridView" Storyboard.TargetProperty="(Grid.RowSpan)">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"></DiscreteObjectKeyFrame>
-                        </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DescriptionGrid" Storyboard.TargetProperty="(Grid.RowSpan)">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="1"></DiscreteObjectKeyFrame>
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="2"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Type" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource LabelSnapped}"></DiscreteObjectKeyFrame>
@@ -142,8 +133,8 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Description2" Storyboard.TargetProperty="Style">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource ContentSnapped}"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btnGenerate" Storyboard.TargetProperty="FontSize">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="14"></DiscreteObjectKeyFrame>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="btnGenerate" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"></DiscreteObjectKeyFrame>
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>
