@@ -11,3 +11,6 @@
 *Fix layout when snapped when the user is on the pattern details
 *Get better images for the design patterns
 *Fix layout for multiple objects in the design pattern form
+
+=================FUTURE RELEASES=================
+*Users will be able to add their own design patterns
