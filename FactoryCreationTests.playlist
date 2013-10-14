@@ -1,1 +1,0 @@
-<Playlist Version="1.0"><Add Test="DesignPatternsTest.FactoryTest.ShapeExplicitFactory" /><Add Test="DesignPatternsTest.FactoryTest.ShapeFactoryHardcodedStrings" /></Playlist>
