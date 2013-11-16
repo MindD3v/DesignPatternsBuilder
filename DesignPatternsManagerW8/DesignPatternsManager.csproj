@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="BindableBase.cs" />
     <Compile Include="ClassInformation.cs" />
+    <Compile Include="DesignPatternFileParser.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="DesignPatternBuilder.cs" />
     <Compile Include="DesignPatternFile.cs" />

@@ -10,7 +10,6 @@ namespace DesignPatternsManagerW8
         Task<IEnumerable<StorageFile>> GetFilesFromFolder(StorageFolder folder, IEnumerable<String> searchPattern);
         Task<Boolean> FileExistsInFolder(String fileName, StorageFolder folder);
         Task<StorageFile> CreateFile(String fileName, StorageFolder folder, String content);
-        //Task<String> GetFolderPath(string folderName);
         Task<string> DeleteFile(String fileName, StorageFolder folder);
         Task<String> ReadFile(String fileName, StorageFolder folder);
         Task<StorageFolder> GetApplicationStorageFolder(string folderName);

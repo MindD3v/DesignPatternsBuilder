@@ -9,5 +9,6 @@ namespace DesignPatternsManagerW8
         public String DesignPatternType { get; set; }
         public String Path { get; set; }
         public String Description { get; set; }
+        public DateTimeOffset ModifiedDate { get; set; }
     }
 }

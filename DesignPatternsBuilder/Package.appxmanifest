@@ -16,7 +16,7 @@
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="DesignPatternsBuilder.App">
       <VisualElements DisplayName="Design Patterns Builder" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Design Patterns Builder: Let you generate Design Pattern in C#" ForegroundText="light" BackgroundColor="#3A6595">
-        <DefaultTile ShowName="allLogos" ShortName="Design Patterns" />
+        <DefaultTile ShowName="logoOnly" ShortName="Design Patterns Builder" WideLogo="Assets\WideLogo.png" />
         <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#3A6595" />
         <InitialRotationPreference>
           <Rotation Preference="landscape" />

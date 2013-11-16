@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Linq;
+using Windows.Storage;
 
 namespace DesignPatternsManagerW8
 {
@@ -41,7 +42,7 @@ namespace DesignPatternsManagerW8
                 {
                     Id = i,
                     DesignPatternName = dp.Descendants("Name").FirstOrDefault().Value,
-                    DesignPatternType = dp.Attribute("type").Value,
+                    DesignPatternType = dp.Descendants("type").FirstOrDefault().Value,
                     Description = dp.Descendants("Description").FirstOrDefault().Value.Trim(),
                     Path = dp.Descendants("Name").FirstOrDefault().Value.Replace(" ","") + ".xml"
                 });
@@ -71,14 +72,11 @@ namespace DesignPatternsManagerW8
 
             return patternParameters;
         }
-        private async Task<IEnumerable<String>> GetDesignPatternsFiles()
+        private async Task<IEnumerable<StorageFile>> GetDesignPatternsFiles()
         {
             var designPatternsTemplatesFiles = await _fileManager.GetFilesFromFolder(await _fileManager.GetDesignPatternsTemplatesPath(), new[] { ".xml" });
 
-            var files = from d in designPatternsTemplatesFiles
-                        select d.Name;
-
-            return files;
+            return designPatternsTemplatesFiles;
         }
         private async Task<IEnumerable<DesignPatternFile>> UpdateDesignPatternsFile()
         {
@@ -93,17 +91,19 @@ namespace DesignPatternsManagerW8
                 var i = 0;
                 foreach (var f in files)
                 {
-                    var readFile = await _fileManager.ReadFile(f,await _fileManager.GetDesignPatternsTemplatesPath());
+                    var readFile = await _fileManager.ReadFile(f.Name,await _fileManager.GetDesignPatternsTemplatesPath());
                     var doc = XDocument.Parse(readFile);
                     var designPattern = doc.Descendants("DesignPattern").FirstOrDefault();
                     var fileName = designPattern.Attribute("name").Value;
                     var type = designPattern.Attribute("type").Value;
                     var description = designPattern.Descendants("Description").FirstOrDefault();
+                    var modifiedDate = (await f.GetBasicPropertiesAsync()).DateModified;
 
-                    var xmlFile = new XElement("DesignPattern", 
-                        new XElement("Name",fileName), 
-                        new XElement("Description",description.Value.Trim()), 
-                        new XAttribute("type", type));
+                    var xmlFile = new XElement("DesignPattern",
+                                               new XElement("Name", fileName,
+                                                            new XAttribute("modifiedDate", modifiedDate)),
+                                               new XElement("Description", description.Value.Trim()),
+                                               new XElement("type", type));
                     designPatternsXml.Element("DesignPatterns").Add(xmlFile);
 
                     var designPatternFile = new DesignPatternFile
@@ -112,7 +112,7 @@ namespace DesignPatternsManagerW8
                         Description = description.Value.Trim(),
                         DesignPatternName = fileName,
                         DesignPatternType = type,
-                        Path = f
+                        Path = f.Name
                     };
                     designPatternFiles.Add(designPatternFile);
                     i++;

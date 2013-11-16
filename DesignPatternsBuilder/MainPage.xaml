@@ -24,8 +24,6 @@
             ItemsPath="TopItems"
             d:Source="{Binding AllGroups, Source={d:DesignInstance Type=data:DesignPatternDataSource, IsDesignTimeCreatable=True}}"
             />
-
-        <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
         <x:String x:Key="AppName">Design Patterns Builder</x:String>
     </Page.Resources>
 

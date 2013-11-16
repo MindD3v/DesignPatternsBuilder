@@ -26,27 +26,27 @@ namespace DesignPatternsManagerW8
         
         public DesignPatternDataCommon(String uniqueId, String designPatterName)
         {
-            this._uniqueId = uniqueId;
-            this._designPatternName = designPatterName;
+            _uniqueId = uniqueId;
+            _designPatternName = designPatterName;
         }
 
         private string _uniqueId = string.Empty;
         public string UniqueId
         {
-            get { return this._uniqueId; }
-            set { this.SetProperty(ref this._uniqueId, value); }
+            get { return _uniqueId; }
+            set { SetProperty(ref _uniqueId, value); }
         }
 
         private string _designPatternName = string.Empty;
         public string DesignPatternName
         {
-            get { return this._designPatternName; }
-            set { this.SetProperty(ref this._designPatternName, value); }
+            get { return _designPatternName; }
+            set { SetProperty(ref _designPatternName, value); }
         }
 
         public override string ToString()
         {
-            return this.DesignPatternName;
+            return _designPatternName;
         }
     }
 
@@ -69,24 +69,24 @@ namespace DesignPatternsManagerW8
         private DesignPatternDataGroup _group;
         public DesignPatternDataGroup Group
         {
-            get { return this._group; }
-            set { this.SetProperty(ref this._group, value); }
+            get { return _group; }
+            set { SetProperty(ref _group, value); }
         }
         private string _description = string.Empty;
         public string Description
         {
-            get { return this._description; }
-            set { this.SetProperty(ref this._description, value); }
+            get { return _description; }
+            set { SetProperty(ref _description, value); }
         }
 
         private string _path = string.Empty;
         public string Path
         {
-            get { return this._path; }
-            set { this.SetProperty(ref this._path, value); }
+            get { return _path; }
+            set { SetProperty(ref _path, value); }
         }
-        private ImageSource _image = null;
-        private String _imagePath = null;
+        private ImageSource _image;
+        private String _imagePath;
         public ImageSource Image
         {
             get
@@ -100,16 +100,16 @@ namespace DesignPatternsManagerW8
 
             set
             {
-                this._imagePath = null;
-                this.SetProperty(ref this._image, value);
+                _imagePath = null;
+                SetProperty(ref _image, value);
             }
         }
 
         public void SetImage(String path)
         {
-            this._image = null;
-            this._imagePath = path;
-            this.OnPropertyChanged("Image");
+            _image = null;
+            _imagePath = path;
+            OnPropertyChanged("Image");
         }
         
     }
@@ -127,16 +127,8 @@ namespace DesignPatternsManagerW8
             
         }
         
-        private void ItemsCollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            // Provides a subset of the full items collection to bind to from a GroupedItemsPage
-            // for two reasons: GridView will not virtualize large items collections, and it
-            // improves the user experience when browsing through groups with large numbers of
-            // items.
-            //
-            // A maximum of 12 items are displayed because it results in filled grid columns
-            // whether there are 1, 2, 3, 4, or 6 rows displayed
-
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
@@ -195,13 +187,13 @@ namespace DesignPatternsManagerW8
         private ObservableCollection<DesignPatternDataItem> _items = new ObservableCollection<DesignPatternDataItem>();
         public ObservableCollection<DesignPatternDataItem> Items
         {
-            get { return this._items; }
+            get { return _items; }
         }
 
         private ObservableCollection<DesignPatternDataItem> _topItem = new ObservableCollection<DesignPatternDataItem>();
         public ObservableCollection<DesignPatternDataItem> TopItems
         {
-            get {return this._topItem; }
+            get {return _topItem; }
         }
     }
 
@@ -218,7 +210,7 @@ namespace DesignPatternsManagerW8
         private ObservableCollection<DesignPatternDataGroup> _allGroups = new ObservableCollection<DesignPatternDataGroup>();
         public ObservableCollection<DesignPatternDataGroup> AllGroups
         {
-            get { return this._allGroups; }
+            get { return _allGroups; }
         }
 
         public static IEnumerable<DesignPatternDataGroup> GetGroups(string uniqueId)

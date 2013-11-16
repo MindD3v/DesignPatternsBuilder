@@ -184,8 +184,8 @@ namespace DesignPatternsBuilder
             var gridSender = (Grid)buttonSender.Parent;
 
             var scrollSenderChildren = from i in gridSender.Children
-                                   where i is ScrollViewer
-                                   select (ScrollViewer)i;
+                                       where i is ScrollViewer
+                                       select (ScrollViewer)i;
 
             var scroll = scrollSenderChildren.FirstOrDefault(s => s.Name == gridSender.Name + "list");
 
@@ -261,20 +261,24 @@ namespace DesignPatternsBuilder
                 
                 foreach (var g in gridParameters)
                 {
-                    var list = (from i in g.Item1.Children
-                                where i is StackPanel
-                                select (StackPanel)i).FirstOrDefault();
+                    var scrollSenderChildren = from i in g.Item1.Children
+                                               where i is ScrollViewer
+                                               select (ScrollViewer)i;
 
-                    var textBoxesFromList = (from t in list.Children
-                              where t is TextBox
-                              select (TextBox)t).ToList();
+                    var scroll = scrollSenderChildren.FirstOrDefault(s => s.Name == g.Item1.Name + "list");
 
-                    var txtValuesList = (from t in textBoxesFromList
+                    var textboxGrid = scroll.Content as StackPanel;
+
+                    var textboxes = from t in textboxGrid.Children
+                                    where t is TextBox
+                                    select (TextBox)t;
+
+                    var txtValuesList = (from t in textboxes
                                          select t.Text).ToList();
 
                     objects.Add(g.Item2.Name, txtValuesList);
 
-                    isValidMultiple = await ValidateTextBoxesMultiParameter(textBoxesFromList, g.Item2);
+                    isValidMultiple = await ValidateTextBoxesMultiParameter(textboxes, g.Item2);
                 }
             }
 
@@ -303,6 +307,21 @@ namespace DesignPatternsBuilder
                 }
             }
             Frame.GoBack();
+        }
+        private IEnumerable<TextBox> GetMultipleTextBoxes(Grid parentGrid)
+        {
+            var scrollSenderChildren = from i in parentGrid.Children
+                                       where i is ScrollViewer
+                                       select (ScrollViewer)i;
+
+            var scroll = scrollSenderChildren.FirstOrDefault(s => s.Name == parentGrid.Name + "list");
+
+            var textboxGrid = scroll.Content as StackPanel;
+
+            var textboxes = from t in textboxGrid.Children
+                            where t is TextBox
+                            select (TextBox)t;
+            return textboxes;
         }
         #region Validation
         private async Task<bool> ValidateTextBoxes(IEnumerable<Tuple<TextBox, DesignPatternParameter>> textBoxes)
